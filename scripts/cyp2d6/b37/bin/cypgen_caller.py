@@ -54,7 +54,6 @@ if "or" in snv_def_alleles:
 else:
     snv_cand_alleles = snv_def_calls[1]
 
-
 dip_variants = get_all_vars_gt(infile_full_gt)
 
 
@@ -72,6 +71,7 @@ cov_5pr_in4 = get_total_CN(cov_file)[7]
 cn_2d7_ex9 = get_total_CN(cov_file)[8]
 cn_2d7_in4_in8 = get_total_CN(cov_file)[9]
 
+print(float(cn_ex9_3pr))
 
 gene_alleles = ""
 
@@ -134,6 +134,7 @@ elif cn == '0':
 
     else:
         gene_alleles = "*5/*5"
+        print(gene_alleles)
         
 elif cn == '1':
     del_confirm = del_test(sv_del)
@@ -187,7 +188,7 @@ elif (int(cn) == 3 or int(cn) == 4) and snv_def_alleles != None:
         print (snv_def_alleles + "\t" + "Duplication present")
 
     else:
-        snv_def_alleles = snv_def_alleles.split("/") 
+        snv_def_alleles = snv_def_alleles.split("/")
         snv_cand_alleles = "".join(snv_cand_alleles)
         snv_cand_alleles = snv_cand_alleles.split("_")
 
@@ -223,8 +224,7 @@ elif (int(cn) == 3 or int(cn) == 4) and snv_def_alleles != None:
             # print (snv_cand_alleles)
             # print ("\n")
             phased_dup = dup_test_cn_3_4(sv_dup, hap_dbs, snv_cand_alleles[0], snv_cand_alleles[1], snv_def_alleles[0], snv_def_alleles[1], cn, av_cov, in_list)
-
-           # print (phased_dup)
+            # print(phased_dup)
             
             phased_dup1 = phased_dup.split("/")
 
@@ -362,7 +362,7 @@ elif (int(cn) == 3 or int(cn) == 4) and snv_def_alleles != None:
                     # *10x2/*36+*10
                     
                     elif test_36 == 'hyb_36_36':
-                        phased_dup = phased_dup.replace('*10x3', '*36+*10').replace('*10', '*36+*10')                
+                        phased_dup = '*36+*10/*36+*10'                
 
             gene_alleles = phased_dup
             print(phased_dup)
@@ -378,7 +378,13 @@ elif int(cn) > 4 and snv_def_alleles != None:
         snv_cand_alleles = "".join(snv_cand_alleles)
         snv_cand_alleles = snv_cand_alleles.split("_")
 
-        phased_dup = dup_test_cn_n(sv_dup, hap_dbs, snv_cand_alleles[0], snv_cand_alleles[1], snv_def_alleles[0], snv_def_alleles[1], cn, av_cov, in_list)
+        if snv_def_alleles[0] != snv_def_alleles[1]:
+
+            phased_dup = dup_test_cn_n(sv_dup, hap_dbs, snv_cand_alleles[0], snv_cand_alleles[1], snv_def_alleles[0], snv_def_alleles[1], cn, av_cov, in_list)
+        elif snv_def_alleles[0] == snv_def_alleles[1]:
+            rt_2 = int(cn) - 1
+            phased_dup = (snv_def_alleles[0] + "/" + snv_def_alleles[1] + "x" + str(rt_2))
+
 
         gene_alleles = phased_dup
         print(phased_dup)
@@ -388,7 +394,6 @@ elif int(cn) > 4 and snv_def_alleles != None:
 elif int(cn) > 2 and snv_def_alleles == None:
     
     print("Possible rare CYP2D6/2D7 hybrid present")
-
 
 
 

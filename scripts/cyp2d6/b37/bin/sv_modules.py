@@ -25,16 +25,17 @@ def get_total_CN(cov_file):
 
 
     av_ctrl_cov = (av_vdr_cov + av_egfr_cov)/2
+    # av_ctrl_cov = av_vdr_cov
 
     comp_av = av_2d6_cov/av_ctrl_cov
-    temp_cn = 2 * comp_av
+    temp_cn = 2 * comp_av + 0.15
     total_cn = round(temp_cn)
 
     in1_3pr = round(2 * av_in1_3pr/av_ctrl_cov) 
     ex9_3pr = (2 * av_ex9_3pr/av_ctrl_cov)
 
 
-    return [str(int(total_cn)), round(av_2d6_cov), str(int(in1_3pr)), round(av_ctrl_cov), str(ex9_3pr), round(av_in1_3pr), str(av_in4_3pr), str(av_5pr_in4), str(av_2d7_ex9), str(av_2d7_in4_in8)];
+    return [str(total_cn), round(av_2d6_cov), str(int(in1_3pr)), round(av_ctrl_cov), str(ex9_3pr), round(av_in1_3pr), str(av_in4_3pr), str(av_5pr_in4), str(av_2d7_ex9), str(av_2d7_in4_in8)];
 
 
 samp_gt = ""
@@ -138,6 +139,7 @@ def dup_test_cn_3_4(sv_dup, hap_dbs, cand_allele1, cand_allele2, test_allele1, t
             
     test_list1 = []
     test_list2 = []
+    test_list3 = []
     het_list = []
 
 
@@ -145,15 +147,36 @@ def dup_test_cn_3_4(sv_dup, hap_dbs, cand_allele1, cand_allele2, test_allele1, t
         if i[1] == "0/1":
             het_list.append(i)
 
+    # return het_list
+
+    # if len(het_list) > 1 and het_list[0][0] == "42522613~G>C":
+    #     het_list.pop(0)
+    # else:
+    #     pass
+
     for i in het_list:
         test_list1.append(i[0])
         test_list2.append(i[-2])
-
+        test_list3.append(float(i[-4]))
 
     max_het = max(test_list2)
+    
+    # if max_het > 1:
+    #     max_het = min(test_list2)
+    # else:
+    #     pass
+
     max_het_pos = test_list2.index(max_het)
     var = test_list1[max_het_pos]
-    
+
+    if max_het > 1:
+        max_het = test_list3[max_het_pos]
+    elif max_het > test_list3[max_het_pos]:
+        max_het = test_list3[max_het_pos]
+    else:
+        pass
+
+
     for elem in hap_def_list:
         if elem[1] == cand_allele1:
             list_3t = elem
@@ -167,6 +190,7 @@ def dup_test_cn_3_4(sv_dup, hap_dbs, cand_allele1, cand_allele2, test_allele1, t
 
     hdb_list = list_3t_2 + list_4t_2
 
+    # return hdb_list
 
     index_var = hdb_list.index(var)
 
@@ -189,6 +213,8 @@ def dup_test_cn_3_4(sv_dup, hap_dbs, cand_allele1, cand_allele2, test_allele1, t
         allele_cn_list.append(test_allele1)
         allele_cn_list.append(rt_2)
 
+
+    # return allele_cn_list
 
     if allele_cn_list[1] == 0:
         res_dip = allele_cn_list[0] + "/" + allele_cn_list[2] + "x" + str(allele_cn_list[3] - 1)
@@ -232,6 +258,12 @@ def dup_test_cn_n(sv_dup, hap_dbs, cand_allele1, cand_allele2, test_allele1, tes
     for i in in_list:
         if i[1] == "0/1":
             het_list.append(i)
+
+    # if len(het_list) > 1 and het_list[0][0] == "42522613~G>C":
+    #     het_list.pop(0)
+    # else:
+    #     pass
+
 
     for i in het_list:
         test_list1.append(i[0])
@@ -366,9 +398,9 @@ def hybrid_test_36(sv_dup, cn, av_cov, cn_ex9_3pr):
     if int(round(float(cn_ex9_3pr))) == int(cn):
         return 'norm_dup'
 
-    elif ((int(cn) - 1) - 0.3) < float(cn_ex9_3pr) < ((int(cn) - 1) + 0.5):
+    elif ((int(cn) - 1) - 0.35) < float(cn_ex9_3pr) < ((int(cn) - 1) + 0.5):
         return 'hyb_36_10'
-    elif (int(cn) - 2) <= float(cn_ex9_3pr) < (int(cn) - 2 + 0.7):
+    elif (int(cn) - 2) <= float(cn_ex9_3pr) < (int(cn) - 2 + 0.65):
         return 'hyb_36_36'
 
 
@@ -379,7 +411,7 @@ def hybrid_test_36_mod(sv_dup, cn, av_cov, cn_ex9_3pr):
                                                                                                   
     elif ((int(cn) - 1) - 0.3) < float(cn_ex9_3pr) < ((int(cn) - 1) + 0.5):
         return 'hyb_36_10'
-    elif (int(cn) - 2) <= float(cn_ex9_3pr) < (int(cn) - 2 + 0.7):
+    elif ((int(cn) - 2) - 0.3) <= float(cn_ex9_3pr) < (int(cn) - 2 + 0.7):
         return 'hyb_36_36'
 
 
