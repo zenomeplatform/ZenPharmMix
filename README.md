@@ -64,7 +64,7 @@ For Docker installation, please refer to the excellent documentation [here](http
 Clone the CypGen repository by running the following command:
 
 ```bash
-git clone https://github.com/twesigomwedavid/CypGen.git && cd CypGen
+git clone https://github.com/SBIMB/CypGen.git && cd CypGen
 ```
 
 
