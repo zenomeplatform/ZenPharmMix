@@ -283,9 +283,24 @@ nextflow run main.nf -profile [standard/slurm etc] --build hg19 --gene [e.g. cyp
 
 ### Step 4 - Results
 
-See result files matching each sample in the `./results` folder or custom predefined path.
+See result files matching each sample in the `./results/<(gene)>` folder or custom predefined path.
 
 
+Notice that there is a separate result-file for each sample and a separate results directory for each gene. We have included a handy script called `get_results_summary.sh` under ./scripts/general in order to facilitate getting the summary of allele calls after running CypGen. 
+
+For example, if one wishes to get a summary of CYP2D6 allele calls for each sample in the ./results/cyp2d6 folder after analysis, the following easy steps would produce a nice and simple summary table;
+
+1. Copy the `get_results_summary.sh` script to the directory with the results files
+
+```bash
+cp path/to/scripts/general/get_results_summary.sh path/to/results/cyp2d6/
+``` 
+
+2. Run the get_results_summary.sh as follows;
+
+```bash
+bash get_results_summary.sh -s <sample names list> -o <output file name>
+```
 
 Thank you for choosing CypGen!
 
