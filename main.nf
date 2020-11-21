@@ -315,44 +315,18 @@ if (params.format=='compressed') {
 
 align_file = Channel.fromFilePairs(params.in_bam, type: 'file') {  file -> file.name.replaceAll(/.${ext}|.${ind}$/,'') }
 
-//ref_ch = Channel.fromFilePairs(params.ref_genome, type: 'file') { file -> file.simpleName }
-
-//ref_genome = file(params.ref_file, type: 'file', checkIfExists: true)
-
-//align_file.subscribe {println "$it"}
-
-// switch (params.ref_file) {
-//     case [null]:
-//         ref_file = "Unspecified!"
-//         break
-//     default:
-//         ref_file = file(params.ref_file, type: 'file', checkIfExists: true)
-// }
-
-
-// switch (params.in_bam) {
-//     case [null]:
-//         align_file = "Unspecified!"
-//         break
-//     default:
-//         align_file = Channel.fromFilePairs(params.in_bam, type: 'file', checkIfExists: true) { file -> file.simpleName }
-// }
-
 
 
 align_file.into { data1; data2; data3; data4; data5 }
 
-//ref_genome.into {ref_ch1; ref_ch2; ref_ch3; ref_ch4 }
 
 ref_dir_val = new File("${params.ref_file}").getParent()
 ref_genome = new File("${params.ref_file}").getName()
 
 
-//ref_dir = Channel . value ("${ref_dir_val}")
-
 
 process call_snvs1 {
-   maxForks 10
+//   maxForks 10
 
    input:
       set val(name), file(bam) from data1
@@ -363,9 +337,15 @@ process call_snvs1 {
       set val(name), path("${name}_var_1") into var_ch1
       
    script:
+   ext1 = bam[0].getExtension()
+   if (ext1=='bam')
+       sam_ind='bam.bai'
+   else
+       sam_ind='bai'   
+      
    if (params.gene=='cyp2c19') 
        """
-   	graphtyper genotype ${ref_dir}/${ref_genome} --sam=${name}.${ext} --region=${region_a1} --output=${name}_var_1 --prior_vcf=${res_dir}/common_plus_core_var.vcf.gz -a ${debug38} ${cram_options} 
+   	graphtyper genotype ${ref_dir}/${ref_genome} --sam=${name}.${ext} --sams_index=<(echo ${name}.${sam_ind}) --region=${region_a1} --output=${name}_var_1 --prior_vcf=${res_dir}/common_plus_core_var.vcf.gz -a ${debug38} ${cram_options} 
 
 	bcftools concat ${name}_var_1/10/096518000-096567999.vcf.gz ${name}_var_1/10/096568000-096613000.vcf.gz -Oz -o ${name}_var_1/10/096518000-096613000.vcf.gz
 	tabix ${name}_var_1/10/096518000-096613000.vcf.gz  
@@ -374,14 +354,14 @@ process call_snvs1 {
 
    else
        """
-       graphtyper genotype ${ref_dir}/${ref_genome} --sam=${name}.${ext} --region=${region_a1} --output=${name}_var_1 --prior_vcf=${res_dir}/common_plus_core_var.vcf.gz -a ${debug38} ${cram_options}
+       graphtyper genotype ${ref_dir}/${ref_genome} --sam=${name}.${ext} --sams_index=<(echo ${name}.${sam_ind}) --region=${region_a1} --output=${name}_var_1 --prior_vcf=${res_dir}/common_plus_core_var.vcf.gz -a ${debug38} ${cram_options}
        """
 
 }
 
 
 process call_snvs2 {
-   maxForks 10
+//   maxForks 10
 
    input:
       set val(name), file(bam) from data2
@@ -391,9 +371,15 @@ process call_snvs2 {
       set val(name), path("${name}_var_2") into var_ch2
 
    script:
+   ext1 = bam[0].getExtension()
+   if (ext1=='bam')
+       sam_ind='bam.bai'
+   else 
+       sam_ind='bai'
+
     if (params.gene == 'cyp2c19')
         """  
-	graphtyper genotype ${ref_dir}/${ref_genome} --sam=${name}.${ext} --region=${region_a1} --output=${name}_var_2 -a ${debug38} ${debug37} ${cram_options}  
+	graphtyper genotype ${ref_dir}/${ref_genome} --sam=${name}.${ext} --sams_index=<(echo ${name}.${sam_ind}) --region=${region_a1} --output=${name}_var_2 -a ${debug38} ${debug37} ${cram_options}  
         bcftools concat ${name}_var_2/10/096518000-096567999.vcf.gz ${name}_var_2/10/096568000-096613000.vcf.gz -Oz -o ${name}_var_2/10/096518000-096613000.vcf.gz   
         tabix ${name}_var_2/10/096518000-096613000.vcf.gz
 	
@@ -401,14 +387,14 @@ process call_snvs2 {
 
     else
         """
-	graphtyper genotype ${ref_dir}/${ref_genome} --sam=${name}.${ext} --region=${region_a1} --output=${name}_var_2 -a ${debug38} ${debug37} ${cram_options}
+	graphtyper genotype ${ref_dir}/${ref_genome} --sam=${name}.${ext} --sams_index=<(echo ${name}.${sam_ind}) --region=${region_a1} --output=${name}_var_2 -a ${debug38} ${debug37} ${cram_options}
 	"""
 
 }
 
 
 process call_sv_del {
-   maxForks 10
+//   maxForks 10
 
    input:
       set val(name), file(bam) from data3
@@ -419,6 +405,12 @@ process call_sv_del {
       set val(name), path("${name}_sv_del") into sv_ch1
 
    script:
+   ext1 = bam[0].getExtension()
+   if (ext1=='bam')
+       sam_ind='bam.bai'
+   else 
+       sam_ind='bai'
+      
      """
 	graphtyper genotype_sv ${ref_dir}/${ref_genome} --sam=${name}.${ext} --region=${region_a1} --output=${name}_sv_del ${res_dir}/sv_test.vcf.gz
 
@@ -427,7 +419,7 @@ process call_sv_del {
 }
 
 process call_sv_dup {
-   maxForks 10
+//   maxForks 10
 
    input:
       set val(name), file(bam) from data4
@@ -438,6 +430,12 @@ process call_sv_dup {
       set val(name), path("${name}_sv_dup") into sv_ch2
 
    script:
+   ext1 = bam[0].getExtension()
+   if (ext1=='bam')
+       sam_ind='bam.bai'
+   else 
+       sam_ind='bai'  
+
      """
 	graphtyper genotype_sv ${ref_dir}/${ref_genome} --sam=${name}.${ext} --region=${region_a1} --output=${name}_sv_dup ${res_dir}/sv_test3.vcf.gz
 
@@ -446,7 +444,7 @@ process call_sv_dup {
 
 
 process get_depth {
-   maxForks 10
+//   maxForks 10
 
    input:
       set val(name), file(bam) from data5
@@ -469,7 +467,7 @@ var_ch1.join(var_ch2).set { var_ch_joined }
 
 
 process format_snvs {
-   maxForks 10
+//   maxForks 10
 
    input:
       set val(name), path("${name}_var_1"), path("${name}_var_2") from var_ch_joined
@@ -490,7 +488,7 @@ process format_snvs {
 
 
 process get_core_var {
-   maxForks 10
+//   maxForks 10
    
    errorStrategy 'ignore'
    tag "${name}"   
@@ -516,7 +514,7 @@ process get_core_var {
 
 
 process analyse_1 {
-   maxForks 10
+//   maxForks 10
 
    errorStrategy 'ignore'
    tag "${name}"
@@ -538,7 +536,7 @@ process analyse_1 {
 sv_ch2.join(core_vars1).set {dup_int}
 
 process analyse_2 {
-   maxForks 10
+//   maxForks 10
 
    errorStrategy 'ignore'
    tag "${name}"
@@ -562,7 +560,7 @@ process analyse_2 {
 var_norm2.join(core_vars2).set {dip_req}
 
 process analyse_3 {
-   maxForks 10
+//   maxForks 10
 
    errorStrategy 'ignore'
    tag "${name}"
@@ -590,7 +588,7 @@ fin_files2.join(sv_ch3).set {fin_files}
 
 
 process call_stars {
-   maxForks 10
+//   maxForks 10
 
    publishDir "$output_folder/$gene_name", mode: 'copy', overwrite: 'true'
 
