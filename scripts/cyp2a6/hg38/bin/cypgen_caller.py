@@ -49,7 +49,7 @@ if snv_def_calls == None:
         print("Possible novel allele or suballele present: interpret with caution")
 
 
-    elif bac_alleles != None and cn < 2:
+    elif bac_alleles != None and int(cn) < 2:
         bac_alleles = bac_alleles.split("/")
         bac_alleles1 = bac_alleles[0] + "/" + "*4"
         print("\nResult:")
