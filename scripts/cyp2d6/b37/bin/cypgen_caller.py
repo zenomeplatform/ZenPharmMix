@@ -338,7 +338,7 @@ elif (int(cn) == 3 or int(cn) == 4) and snv_def_alleles != None:
             #         other_hap = i
 
                 if count1 == 1:
-                    test_68 = hybrid_test_68(sv_dup, cn, av_cov, cn_in1_3pr)
+                    test_68 = hybrid_test_68(sv_dup, cn, av_cov, cn_in1_3pr, in_list)
 
                     if test_68 == 'norm_dup':
                         pass
