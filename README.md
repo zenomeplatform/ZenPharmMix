@@ -299,7 +299,7 @@ cp path/to/scripts/general/get_results_summary.sh path/to/results/cyp2d6/
 2. Run the get_results_summary.sh as follows;
 
 ```bash
-bash get_results_summary.sh -s <sample names list> -o <output file name>
+bash get_results_summary.sh -s <sample-names-list> -o <output-file-name>
 ```
 
 Thank you for choosing CypGen!
