@@ -221,7 +221,7 @@ if (params.build=='b37') {
 	region_a1 = "chr19:40833541-40887450"
 	region_a2 = "040833541-040887450"
 	region_b1 = "chr19:40842750-40852250"
-	region_b1 = "040842750-040852250"
+	region_b2 = "040842750-040852250"
     
     } else if (params.gene=='cyp2b6') {
         chrom = "chr19"
