@@ -1,19 +1,19 @@
-# CypGen
-Calling human cytochrome P450 star alleles by leveraging genome graph-based variant detection.
+# StellarPGx
+Calling star alleles in highly polymorphic pharmacogenes by leveraging genome graph-based variant detection.
 
 Model gene: CYP2D6
 
 Other CYP450 genes supported: CYP2A6, CYP2B6, CYP2C19, CYP2C9, CYP2C8, CYP3A4, CYP3A5, CYP1A1, CYP1A2, CYP2E1, CYP4F2
 
 
-CypGen is built using [Nextflow](https://www.nextflow.io), a workflow management system that facilitates parallelisation, scalability, reproducibility and portability of pipelines via [`Docker`](https://docs.docker.com) and [`Singularity`](https://sylabs.io/) technologies.
+StellarPGx is built using [Nextflow](https://www.nextflow.io), a workflow management system that facilitates parallelisation, scalability, reproducibility and portability of pipelines via [`Docker`](https://docs.docker.com) and [`Singularity`](https://sylabs.io/) technologies.
 
 Maintainer: David Twesigomwe (twesigomwedavid@gmail.com)
 
 
 ## Getting started
 
-The following are required to run the CypGen pipeline;
+The following are required to run the StellarPGx pipeline;
 
 1. Prerequisite software
     - [`Nextflow`](https://nf-co.re/usage/installation) (preferably v18.x or higher)
@@ -59,19 +59,19 @@ For Singularity installation, please refer to the excellent documentation [here]
 For Docker installation, please refer to the excellent documentation [here](https://docs.docker.com/get-docker))
 
 
-#### CypGen repository:
+#### StellarPGx repository:
 
-Clone the CypGen repository by running the following command:
+Clone the StellarPGx repository by running the following command:
 
 ```bash
-git clone https://github.com/SBIMB/CypGen.git && cd CypGen
+git clone https://github.com/SBIMB/StellarPGx.git && cd StellarPGx
 ```
 
 
-## Running CypGen on the provided test dataset(s) - using Singularity (default)
+## Running StellarPGx on the provided test dataset(s) - using Singularity (default)
 
 The following steps assume that;
-    i. CypGen is your current working directory
+    i. StellarPGx is your current working directory
     ii. Nextflow and Singularity are already installed
 
 
@@ -101,7 +101,7 @@ The expected output file (SIM001_2d6.alleles) for test dataset SIM001.bam will b
 ```
 --------------------------------------------
 
-CYP2D6 Star Allele Calling with CypGen
+CYP2D6 Star Allele Calling with StellarPGx
 
 --------------------------------------------
 
@@ -131,7 +131,7 @@ Intermediate metaboliser (IM)
 
 
 
-## Running CypGen on the provided test dataset(s) - using Docker
+## Running StellarPGx on the provided test dataset(s) - using Docker
 
 At the moment, only Docker Desktop on MacOS has been tested. The following steps assume that you have already installed Docker Desktop on your Mac as indicated above.
 
@@ -171,9 +171,9 @@ Additionally, comment out the Singularity container variable (default) and set t
 
 ```bash
 
-// container = "$PWD/containers/cypgen-dev.sif"  // this is to take the Singularity container out of the equation
+// container = "$PWD/containers/stellarpgx-dev.sif"  // this is to take the Singularity container out of the equation
 
-container = "twesigomwedavid/cypgen-dev:latest" // this to set the container path to the Docker image containing all the dependencies that CypGen requires
+container = "twesigomwedavid/cypgen-dev:latest" // this to set the container path to the Docker image containing all the dependencies that StellarPGx requires
 ```
 
 
@@ -190,15 +190,15 @@ Similar to Singularity run.
 
 
 
-## Running CypGen on your project data
+## Running StellarPGx on your project data
 
 Once again, the following steps assume that;
-    i. CypGen is your current working directory
+    i. StellarPGx is your current working directory
     ii. Nextflow and Singularity or Docker are already installed
     
 
 ### Step 1 - Singularity vs Docker
-Follow the aforementioned guidelines to decide between either Singularity or Docker. To reiterate, we recommend Docker for MacOS Desktop users. Singularity (default) is ideal for running CypGen on HPC cluster/server environments running Linux OS and also for Linux local machines.
+Follow the aforementioned guidelines to decide between either Singularity or Docker. To reiterate, we recommend Docker for MacOS Desktop users. Singularity (default) is ideal for running StellarPGx on HPC cluster/server environments running Linux OS and also for Linux local machines.
 
 
     
@@ -238,7 +238,7 @@ ref_file = "/path/to/reference/genome.fasta"
 
 Results directory:
 
-Optionally, you may set the `out_dir` to a path of choice. The default output folder is `./results` under the CypGen directory. 
+Optionally, you may set the `out_dir` to a path of choice. The default output folder is `./results` under the StellarPGx directory. 
 
 
 
@@ -286,7 +286,7 @@ nextflow run main.nf -profile [standard/slurm etc] --build hg19 --gene [e.g. cyp
 See result files matching each sample in the `./results/<(gene)>` folder or custom predefined path.
 
 
-Notice that there is a separate result-file for each sample and a separate results directory for each gene. We have included a handy script called `get_results_summary.sh` under ./scripts/general in order to facilitate getting the summary of allele calls after running CypGen. 
+Notice that there is a separate result-file for each sample and a separate results directory for each gene. We have included a handy script called `get_results_summary.sh` under ./scripts/general in order to facilitate getting the summary of allele calls after running StellarPGx. 
 
 For example, if one wishes to get a summary of CYP2D6 allele calls for each sample in the ./results/cyp2d6 folder after analysis, the following easy steps would produce a nice and simple summary table;
 
@@ -302,6 +302,6 @@ cp path/to/scripts/general/get_results_summary.sh path/to/results/cyp2d6/
 bash get_results_summary.sh -s <sample-names-list> -o <output-file-name>
 ```
 
-Thank you for choosing CypGen!
+Thank you for choosing StellarPGx!
 
 
