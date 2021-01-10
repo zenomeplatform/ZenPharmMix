@@ -215,9 +215,14 @@ def cand_snv_allele_calling(database, infile, infile_full, infile_full_gt, infil
                         hap2 = "*" + str (elem[res1[0]+1:res2[1]])
                         result_dip = hap1 + "/" + hap2
                         amb_soln_set.append(result_dip)
-                        #elem_pos = tiebreak1.index(elem)
-                        #print ("Solution " + str(elem_pos) + ": " + result_dip)
-                    allele_res =  " or ".join(amb_soln_set) 
+                        # elem_pos = tiebreak1.index(elem)
+                        # print ("Solution " + str(elem_pos) + ": " + result_dip)
+                        # allele_res =  " or ".join(amb_soln_set) 
+                    if amb_soln_set[0] != amb_soln_set[1]:
+                        allele_res =  " or ".join(amb_soln_set)
+                    else:
+                        allele_res = amb_soln_set[0]
+
                     return [soln_list1, soln_list1, allele_res];
 
 
