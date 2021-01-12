@@ -1,5 +1,6 @@
-# StellarPGx
-Calling star alleles in highly polymorphic pharmacogenes by leveraging genome graph-based variant detection.
+## ![StellarPGx](docs/images/stellarpgx_logo.png "StellarPGx")
+
+# StellarPGx: Calling star alleles in highly polymorphic pharmacogenes by leveraging genome graph-based variant detection.
 
 Model gene: CYP2D6
 
