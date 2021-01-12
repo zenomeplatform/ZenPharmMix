@@ -1,4 +1,4 @@
-#### ![StellarPGx](docs/images/stellarpgx_logo1.png "StellarPGx")
+#### ![StellarPGx](docs/images/stellarpgx_pgt.png "StellarPGx")
 
 ## StellarPGx: Calling star alleles in highly polymorphic pharmacogenes by leveraging genome graph-based variant detection.
 
