@@ -22,7 +22,8 @@ def get_total_CN(cov_file):
     av_2d7_ex9 = float(all_reg[7][3])/(float(all_reg[7][2]) - float(all_reg[7][1]))
     av_2d7_in4_in8 = float(all_reg[8][3])/(float(all_reg[8][2]) - float(all_reg[8][1]))
     av_egfr_cov = float(all_reg[9][3])/(float(all_reg[9][2]) - float(all_reg[9][1]))
-
+    av_2d7_ex2_in8 = float(all_reg[10][3])/(float(all_reg[10][2]) - float(all_reg[10][1]))
+    av_2d7_5pr_in1 = float(all_reg[11][3])/(float(all_reg[11][2]) - float(all_reg[11][1]))
 
     av_ctrl_cov = (av_vdr_cov + av_egfr_cov)/2
     # av_ctrl_cov = av_vdr_cov
@@ -35,7 +36,7 @@ def get_total_CN(cov_file):
     ex9_3pr = (2 * av_ex9_3pr/av_ctrl_cov)
 
 
-    return [str(total_cn), round(av_2d6_cov), str(int(in1_3pr)), round(av_ctrl_cov), str(ex9_3pr), round(av_in1_3pr), str(av_in4_3pr), str(av_5pr_in4), str(av_2d7_ex9), str(av_2d7_in4_in8)];
+    return [str(total_cn), round(av_2d6_cov), str(int(in1_3pr)), round(av_ctrl_cov), str(ex9_3pr), round(av_in1_3pr), str(av_in4_3pr), str(av_5pr_in4), str(av_2d7_ex9), str(av_2d7_in4_in8), str(av_2d7_ex2_in8), str(av_2d7_5pr_in1)];
 
 
 samp_gt = ""
@@ -234,13 +235,6 @@ def dup_test_cn_3_4(sv_dup, hap_dbs, cand_allele1, cand_allele2, test_allele1, t
     elif allele_cn_list[3] == 2:
         res_dip = allele_cn_list[2] + "x2" + "/" + allele_cn_list[0] + "x" + str(allele_cn_list[1])
 
-    elif allele_cn_list[1] == -1:
-        res_dip = allele_cn_list[0] + "/" + allele_cn_list[2] + "x" + str(allele_cn_list[3] - 2)
-
-    elif allele_cn_list[3] == -1:
-        res_dip =  allele_cn_list[2] + "/" + allele_cn_list[0] + "x" + str(allele_cn_list[1] - 2)
-
-
 
     else:
         res_dip = 'check'
@@ -346,12 +340,6 @@ def dup_test_cn_n(sv_dup, hap_dbs, cand_allele1, cand_allele2, test_allele1, tes
     elif allele_cn_list[3] == 4:
         res_dip = allele_cn_list[2] + "x4" + "/" + allele_cn_list[0] + "x" + str(allele_cn_list[1])
 
-    elif allele_cn_list[1] == -1:
-        res_dip = allele_cn_list[0] + "/" + allele_cn_list[2] + "x" + str(allele_cn_list[3] - 2)
-
-    elif allele_cn_list[3] == -1:
-        res_dip =  allele_cn_list[2] + "/" + allele_cn_list[0] + "x" + str(allele_cn_list[1] - 2)
-
 
     else:
         res_dip = 'check'
@@ -417,6 +405,20 @@ def hybrid_test_36(sv_dup, cn, av_cov, cn_ex9_3pr):
         return 'hyb_36_36'
 
 
+def hybrid_test_36_single(sv_dup, cn, av_cov, cn_ex9_3pr):
+
+    if int(round(float(cn_ex9_3pr))) == int(cn):
+        return 'norm_star10'
+
+    elif ((int(cn) - 1) - 0.35) < float(cn_ex9_3pr) < ((int(cn) - 1) + 0.5):
+        return 'hyb_36_single'
+
+    else:
+        return 'norm_star10'
+
+
+
+
 def hybrid_test_36_mod(sv_dup, cn, av_cov, cn_ex9_3pr):
 
     if int(round(float(cn_ex9_3pr))) == int(cn):
@@ -429,12 +431,22 @@ def hybrid_test_36_mod(sv_dup, cn, av_cov, cn_ex9_3pr):
 
 
 
-def hybrid_13_test1(cov_in4_3pr, cov_5pr_in4):
+def hybrid_13_2_v1(cov_in4_3pr, cov_5pr_in4):
 
     if 0.85 < float(cov_in4_3pr)/float(cov_5pr_in4) < 1.2:
         return 'norm_var'
     elif 0.45 < float(cov_in4_3pr)/float(cov_5pr_in4) < 0.75:
         return 'hyb_13_2'
+    else:
+        return 'norm_var'
+
+
+def hybrid_13_2_v2(cov_2d7_ex2_in8, cov_2d7_5pr_in1):
+
+    if 0.85 < float(cov_2d7_ex2_in8)/float(cov_2d7_5pr_in1) < 1.2:
+        return 'norm_var'
+    elif 0.45 < float(cov_2d7_ex2_in8)/float(cov_2d7_5pr_in1) < 0.75:
+        return 'hyb_13_2_v2'
     else:
         return 'norm_var'
 
@@ -480,3 +492,76 @@ def tandem_90_1(in_list, alt_allele, cn):
             res = '*1/*90+*1'
 
     return res
+
+
+def tandem_57_10(in_list, alt_allele, cn):
+
+    test_list1 = []
+    test_list2 = []
+    test_list3 = []
+
+    for i in in_list:
+        test_list1.append(i[0])
+        test_list2.append(abs(float(i[-2])))
+        test_list3.append(i[-1])
+
+    if len(test_list1) > 1:
+        index1 = test_list1.index('42525908~G>A')
+        a = test_list3[index1]
+        test_list3.pop(index1)
+        index2 = test_list1.index('42526694~G>A')
+        m = test_list3[index2]
+        test_list3.pop(index2)
+        b = max(test_list3)
+
+        c = round(b/a)
+        p = round(m/a)
+
+        if int(cn) == 3 and c == 1 and p > 1:
+            res = alt_allele + "/" + "*57+*10"
+
+        elif int(cn) == 3 and c > 1 and p == 1:
+            res = alt_allele + "x2" + "/" + "*57"
+
+        elif int(cn) == 4 and c == 2 and p > 1:
+            res = alt_allele + "x2" + "/" + "*57+*10"
+
+        elif int(cn) == 4 and c >= 3 and p == 1:
+            res = alt_allele + "x3" + "/" + "*57"
+
+        elif int(cn) == 4 and p == 1 and alt_allele == '*10':
+            res = "*57+*10" + "/" + "*57+*10"
+
+        elif int(cn) == 4 and p > 1 and alt_allele == '*10':
+            res = "*10x2" + "/" + "*57+*10"
+
+
+        else:
+            res = alt_allele + "/" + "*57+*10"
+
+    return res
+
+
+def hybrid_test_83_single(sv_dup, cn, av_cov, cn_ex9_3pr):
+
+    if int(round(float(cn_ex9_3pr))) == int(cn):
+        return 'norm_star39'
+
+    elif ((int(cn) - 1) - 0.35) < float(cn_ex9_3pr) < ((int(cn) - 1) + 0.5):
+        return 'hyb_83_single'
+
+    else:
+        return 'norm_star39'
+
+
+def hybrid_test_83(sv_dup, cn, av_cov, cn_ex9_3pr):
+
+    if int(round(float(cn_ex9_3pr))) == int(cn):
+        return 'norm_star39'
+
+    elif ((int(cn) - 1) - 0.35) < float(cn_ex9_3pr) < ((int(cn) - 1) + 0.5):
+        return 'hyb_83'
+
+    else:
+        return 'norm_star39'
+
