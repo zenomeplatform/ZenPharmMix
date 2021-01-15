@@ -139,10 +139,10 @@ At the moment, only Docker Desktop on MacOS has been tested. The following steps
 
 ### Step 1 - Pull the Docker container
 
-Pull the `cypgen-dev` container from Docker hub by running the command below:
+Pull the `stellarpgx-dev` container from Docker Hub by running the command below:
 
 ```bash
-docker pull twesigomwedavid/cypgen-dev:latest
+docker pull twesigomwedavid/stellarpgx-dev:latest
 ```
 
 ### Step 2 - Disable Singlularity(default) and enable Docker instead in the nextflow.config file
@@ -174,7 +174,7 @@ Additionally, comment out the Singularity container variable (default) and set t
 
 // container = "$PWD/containers/stellarpgx-dev.sif"  // this is to take the Singularity container out of the equation
 
-container = "twesigomwedavid/cypgen-dev:latest" // this to set the container path to the Docker image containing all the dependencies that StellarPGx requires
+container = "twesigomwedavid/stellarpgx-dev:latest" // this to set the container path to the Docker image containing all the dependencies that StellarPGx requires
 ```
 
 
