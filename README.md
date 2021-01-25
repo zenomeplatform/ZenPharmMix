@@ -78,6 +78,7 @@ The following steps assume that;
 
 
 ### Step 1 - Parameters
+
 The parameters for Singularity are set as default so no need to change anything.
 
 
@@ -188,6 +189,7 @@ nextflow run main.nf -profile standard,test
 
 
 ### Step 4 - Expected output
+
 Similar to Singularity run.
 
 
@@ -200,6 +202,7 @@ Once again, the following steps assume that;
     
 
 ### Step 1 - Singularity vs Docker
+
 Follow the aforementioned guidelines to decide between either Singularity or Docker. To reiterate, we recommend Docker for MacOS Desktop users. Singularity (default) is ideal for running StellarPGx on HPC cluster/server environments running Linux OS and also for Linux local machines.
 
 
@@ -303,6 +306,19 @@ cp path/to/scripts/general/get_results_summary.sh path/to/results/cyp2d6/
 ```bash
 bash get_results_summary.sh -s <sample-names-list> -o <output-file-name>
 ```
+
+
+## Citation
+
+If you use StellarPGx in your PGx analysis, please cite our recently accepted article:
+
+David Twesigomwe, Britt I. Drögemöller, Galen E.B. Wright, Azra Siddiqui, Jorge da Rocha, Zané Lombard and Scott Hazelhurst. StellarPGx: A Nextflow pipeline for calling star alleles in cytochrome P450 genes. *Clinical Pharmacology and Therapeutics* (2021). [Epub ahead of print] doi: doi:10.1002/cpt.2173
+
+
+## License
+
+MIT License
+
 
 Thank you for choosing StellarPGx!
 
