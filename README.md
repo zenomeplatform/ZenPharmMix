@@ -320,6 +320,6 @@ David Twesigomwe, Britt I. Drögemöller, Galen E.B. Wright, Azra Siddiqui, Jorg
 MIT License
 
 
-Thank you for choosing StellarPGx!
+Thank you for choosing StellarPGx :nerd_face:
 
 
