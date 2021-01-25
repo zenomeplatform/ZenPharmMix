@@ -312,7 +312,7 @@ bash get_results_summary.sh -s <sample-names-list> -o <output-file-name>
 
 If you use StellarPGx in your PGx analysis, please cite our recently accepted article:
 
-David Twesigomwe, Britt I. Drögemöller, Galen E.B. Wright, Azra Siddiqui, Jorge da Rocha, Zané Lombard and Scott Hazelhurst. StellarPGx: A Nextflow pipeline for calling star alleles in cytochrome P450 genes. *Clinical Pharmacology and Therapeutics* (2021). [Epub ahead of print] doi: doi:10.1002/cpt.2173
+David Twesigomwe, Britt I. Drögemöller, Galen E.B. Wright, Azra Siddiqui, Jorge da Rocha, Zané Lombard and Scott Hazelhurst. StellarPGx: A Nextflow pipeline for calling star alleles in cytochrome P450 genes. *Clinical Pharmacology and Therapeutics* (2021). [Epub ahead of print] doi:10.1002/cpt.2173
 
 
 ## License
