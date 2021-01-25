@@ -43,14 +43,19 @@ def get_backgroud_alleles(database, core_vars):
 
         scores.append(counter)
 
-    max_score = max(scores)
-    max_index = scores.index(max_score)
+    if len(scores) == 0:
+        allele_res = '*2/*2'
 
-    diplo1 = dbs_temp[max_index][0]
+    else:
+        max_score = max(scores)
+        max_index = scores.index(max_score)
 
-    res1 = [i for i in range(len(diplo1)) if diplo1.startswith("_", i)]
-    res2 = [i for i in range(len(diplo1)) if diplo1.startswith(".", i)]
-    hap1 = "*" + str (diplo1[:res2[0]])
-    hap2 = "*" + str (diplo1[res1[0]+1:res2[1]])
-    allele_res =  hap1 + "/" + hap2 
+        diplo1 = dbs_temp[max_index][0]
+
+        res1 = [i for i in range(len(diplo1)) if diplo1.startswith("_", i)]
+        res2 = [i for i in range(len(diplo1)) if diplo1.startswith(".", i)]
+        hap1 = "*" + str (diplo1[:res2[0]])
+        hap2 = "*" + str (diplo1[res1[0]+1:res2[1]])
+        allele_res =  hap1 + "/" + hap2 
+
     return allele_res

@@ -100,6 +100,13 @@ if (params.build=='b37') {
 	region_b1 = "19:15988850-16008850"
 	region_b2 = "015988850-016008850"
 
+    } else if (params.gene=='cypor') {
+       chrom = "7"
+       region_a1 = "7:75540000-75617500"
+       region_a2 = "075540000-075617500"
+       region_b1 = "7:75583350-75615800"
+       region_b2 = "075583350-075615800"
+
     }
 
 
@@ -198,8 +205,14 @@ if (params.build=='b37') {
 	region_b1 = "chr19:15988850-16008850"
 	region_b2 = "015988850-016008850"
 
-    }
+    } else if (params.gene=='cypor') {
+       chrom = "chr7"
+       region_a1 = "7:75540000-75617500"
+       region_a2 = "075540000-075617500"
+       region_b1 = "7:75583350-75615800"
+       region_b2 = "075583350-075615800"
 
+    }
 
 
 } else {
@@ -294,6 +307,13 @@ if (params.build=='b37') {
 	region_b1 = "chr19:15878000-15898100"
 	region_b2 = "015878000-015898100"
 
+    } else if (params.gene=='cypor') {
+       chrom = "chr7"
+       region_a1 = "chr7:75913370-75989900"
+       region_a2 = "075913370-075989900"
+       region_b1 = "chr7:75954050-75986500"
+       region_b2 = "075954050-075986500"
+
     }
 
 }
@@ -315,8 +335,6 @@ if (params.format=='compressed') {
 
 align_file = Channel.fromFilePairs(params.in_bam, type: 'file') {  file -> file.name.replaceAll(/.${ext}|.${ind}$/,'') }
 
-
-
 align_file.into { data1; data2; data3; data4; data5 }
 
 
@@ -328,34 +346,90 @@ ref_genome = new File("${params.ref_file}").getName()
 process call_snvs1 {
 //   maxForks 10
 
-   input:
-      set val(name), file(bam) from data1
-      path ref_dir from Channel.value("${ref_dir_val}")
-      path res_dir
+    input:
+    set val(name), file(bam) from data1
+    path ref_dir from Channel.value("${ref_dir_val}")
+    path res_dir
 
-   output:	        
-      set val(name), path("${name}_var_1") into var_ch1
+    output:	        
+    set val(name), path("${name}_var_1") into var_ch1
       
-   script:
-   ext1 = bam[0].getExtension()
-   if (ext1=='bam')
-       sam_ind='bam.bai'
-   else
-       sam_ind='bai'   
+    script:
+    ext1 = bam[0].getExtension()
+    if (ext1=='bam')
+        sam_ind='bam.bai'
+
+    else if (ext1=='cram')
+        sam_ind='cram.crai'
+
+    else if (ext1=='crai')
+        sam_ind='crai'
+
+    else
+        sam_ind='bai'   
       
-   if (params.gene=='cyp2c19') 
-       """
-   	graphtyper genotype ${ref_dir}/${ref_genome} --sam=${name}.${ext} --sams_index=<(echo ${name}.${sam_ind}) --region=${region_a1} --output=${name}_var_1 --prior_vcf=${res_dir}/common_plus_core_var.vcf.gz -a ${debug38} ${cram_options} 
+    if (params.gene=='cyp2c19') 
+        if (params.build=='b37')
+            """
+            graphtyper genotype ${ref_dir}/${ref_genome} --sam=${name}.${ext} --sams_index=<(echo ${name}.${sam_ind}) --region=${region_a1} --output=${name}_var_1 --prior_vcf=${res_dir}/common_plus_core_var.vcf.gz -a ${debug38} ${cram_options} 
 
-	bcftools concat ${name}_var_1/10/096518000-096567999.vcf.gz ${name}_var_1/10/096568000-096613000.vcf.gz -Oz -o ${name}_var_1/10/096518000-096613000.vcf.gz
-	tabix ${name}_var_1/10/096518000-096613000.vcf.gz  
+	    bcftools concat ${name}_var_1/10/096518000-096567999.vcf.gz ${name}_var_1/10/096568000-096613000.vcf.gz -Oz -o ${name}_var_1/10/096518000-096613000.vcf.gz
+	    tabix ${name}_var_1/10/096518000-096613000.vcf.gz  
 
-       """
+            """
 
-   else
-       """
-       graphtyper genotype ${ref_dir}/${ref_genome} --sam=${name}.${ext} --sams_index=<(echo ${name}.${sam_ind}) --region=${region_a1} --output=${name}_var_1 --prior_vcf=${res_dir}/common_plus_core_var.vcf.gz -a ${debug38} ${cram_options}
-       """
+        else if (params.build=='hg19')
+            """
+            graphtyper genotype ${ref_dir}/${ref_genome} --sam=${name}.${ext} --sams_index=<(echo ${name}.${sam_ind}) --region=${region_a1} --output=${name}_var_1 --prior_vcf=${res_dir}/common_plus_core_var.vcf.gz -a ${debug38} ${cram_options}
+
+            bcftools concat ${name}_var_1/chr10/096518000-096567999.vcf.gz ${name}_var_1/chr10/096568000-096613000.vcf.gz -Oz -o ${name}_var_1/chr10/096518000-096613000.vcf.gz
+
+            tabix ${name}_var_1/chr10/096518000-096613000.vcf.gz
+            """
+
+        else
+            """
+            graphtyper genotype ${ref_dir}/${ref_genome} --sam=${name}.${ext} --sams_index=<(echo ${name}.${sam_ind}) --region=${region_a1} --output=${name}_var_1 --prior_vcf=${res_dir}/common_plus_core_var.vcf.gz -a ${debug38} ${cram_options}
+
+            bcftools concat ${name}_var_1/chr10/094752750-094802749.vcf.gz ${name}_var_1/chr10/094802750-094852749.vcf.gz ${name}_var_1/chr10/094852750-094865500.vcf.gz -Oz -o ${name}_var_1/chr10/094752750-094865500.vcf.gz
+
+            tabix ${name}_var_1/chr10/094752750-094865500.vcf.gz
+            """
+
+    else if (params.gene=='cypor')
+        if (params.build=='b37')
+            """
+            graphtyper genotype ${ref_dir}/${ref_genome} --sam=${name}.${ext} --sams_index=<(echo ${name}.${sam_ind}) --region=${region_a1} --output=${name}_var_1 --prior_vcf=${res_dir}/common_plus_core_var.vcf.gz -a ${debug38} ${cram_options}
+
+            bcftools concat ${name}_var_1/7/075540000-075589999.vcf.gz ${name}_var_1/7/075590000-075617500.vcf.gz -Oz -o ${name}_var_1/7/075540000-075617500.vcf.gz
+            tabix ${name}_var_1/7/075540000-075617500.vcf.gz
+
+            """
+
+        else if (params.build=='hg19')
+            """
+            graphtyper genotype ${ref_dir}/${ref_genome} --sam=${name}.${ext} --sams_index=<(echo ${name}.${sam_ind}) --region=${region_a1} --output=${name}_var_1 --prior_vcf=${res_dir}/common_plus_core_var.vcf.gz -a ${debug38} ${cram_options}
+
+            bcftools concat ${name}_var_1/chr7/075540000-075589999.vcf.gz ${name}_var_1/chr7/075590000-075617500.vcf.gz -Oz -o ${name}_var_1/chr7/075540000-075617500.vcf.gz
+
+            tabix ${name}_var_1/chr7/075540000-075617500.vcf.gz
+            """
+
+        else
+            """
+            graphtyper genotype ${ref_dir}/${ref_genome} --sam=${name}.${ext} --sams_index=<(echo ${name}.${sam_ind}) --region=${region_a1} --output=${name}_var_1 --prior_vcf=${res_dir}/common_plus_core_var.vcf.gz -a ${debug38} ${cram_options}
+
+            bcftools concat ${name}_var_1/chr7/075913370-075963369.vcf.gz ${name}_var_1/chr7/075963370-075989900.vcf.gz -Oz -o ${name}_var_1/chr7/075913370-075989900.vcf.gz
+
+            tabix ${name}_var_1/chr7/075913370-075989900.vcf.gz
+            """
+
+
+
+    else
+        """
+        graphtyper genotype ${ref_dir}/${ref_genome} --sam=${name}.${ext} --sams_index=<(echo ${name}.${sam_ind}) --region=${region_a1} --output=${name}_var_1 --prior_vcf=${res_dir}/common_plus_core_var.vcf.gz -a ${debug38} ${cram_options}
+        """
 
 }
 
@@ -363,27 +437,79 @@ process call_snvs1 {
 process call_snvs2 {
 //   maxForks 10
 
-   input:
-      set val(name), file(bam) from data2
-      path ref_dir from Channel.value("${ref_dir_val}")
+    input:
+    set val(name), file(bam) from data2
+    path ref_dir from Channel.value("${ref_dir_val}")
 
-   output: 
-      set val(name), path("${name}_var_2") into var_ch2
+    output: 
+    set val(name), path("${name}_var_2") into var_ch2
 
-   script:
-   ext1 = bam[0].getExtension()
-   if (ext1=='bam')
-       sam_ind='bam.bai'
-   else 
-       sam_ind='bai'
+    script:
+    ext1 = bam[0].getExtension()
+    if (ext1=='bam')
+        sam_ind='bam.bai'
+
+    else if (ext1=='cram')
+        sam_ind='cram.crai'
+
+    else if (ext1=='crai')
+        sam_ind='crai'
+
+    else 
+        sam_ind='bai'
 
     if (params.gene == 'cyp2c19')
-        """  
-	graphtyper genotype ${ref_dir}/${ref_genome} --sam=${name}.${ext} --sams_index=<(echo ${name}.${sam_ind}) --region=${region_a1} --output=${name}_var_2 -a ${debug38} ${debug37} ${cram_options}  
-        bcftools concat ${name}_var_2/10/096518000-096567999.vcf.gz ${name}_var_2/10/096568000-096613000.vcf.gz -Oz -o ${name}_var_2/10/096518000-096613000.vcf.gz   
-        tabix ${name}_var_2/10/096518000-096613000.vcf.gz
-	
-        """
+        if (params.build == 'b37')   
+            """  
+	    graphtyper genotype ${ref_dir}/${ref_genome} --sam=${name}.${ext} --sams_index=<(echo ${name}.${sam_ind}) --region=${region_a1} --output=${name}_var_2 -a ${debug38} ${debug37} ${cram_options}  
+            bcftools concat ${name}_var_2/10/096518000-096567999.vcf.gz ${name}_var_2/10/096568000-096613000.vcf.gz -Oz -o ${name}_var_2/10/096518000-096613000.vcf.gz   
+            tabix ${name}_var_2/10/096518000-096613000.vcf.gz
+            """
+
+        else if (params.build=='hg19')
+            """
+            graphtyper genotype ${ref_dir}/${ref_genome} --sam=${name}.${ext} --sams_index=<(echo ${name}.${sam_ind}) --region=${region_a1} --output=${name}_var_2 --prior_vcf=${res_dir}/common_plus_core_var.vcf.gz -a ${debug38} ${cram_options}
+
+            bcftools concat ${name}_var_2/chr10/096518000-096567999.vcf.gz ${name}_var_2/chr10/096568000-096613000.vcf.gz -Oz -o ${name}_var_2/chr10/096518000-096613000.vcf.gz
+
+            tabix ${name}_var_2/chr10/096518000-096613000.vcf.gz
+            """
+
+        else
+            """
+            graphtyper genotype ${ref_dir}/${ref_genome} --sam=${name}.${ext} --sams_index=<(echo ${name}.${sam_ind}) --region=${region_a1} --output=${name}_var_2 --prior_vcf=${res_dir}/common_plus_core_var.vcf.gz -a ${debug38} ${cram_options}
+
+            bcftools concat ${name}_var_2/chr10/094752750-094802749.vcf.gz ${name}_var_2/chr10/094802750-094852749.vcf.gz ${name}_var_2/chr10/094852750-094865500.vcf.gz -Oz -o ${name}_var_2/chr10/094752750-094865500.vcf.gz
+
+            tabix ${name}_var_2/chr10/094752750-094865500.vcf.gz
+           """
+
+    else if (params.gene=='cypor')
+        if (params.build=='b37')
+            """
+            graphtyper genotype ${ref_dir}/${ref_genome} --sam=${name}.${ext} --sams_index=<(echo ${name}.${sam_ind}) --region=${region_a1} --output=${name}_var_2 --prior_vcf=${res_dir}/common_plus_core_var.vcf.gz -a ${debug38} ${cram_options}
+
+            bcftools concat ${name}_var_2/7/075540000-075589999.vcf.gz ${name}_var_2/7/075590000-075617500.vcf.gz -Oz -o ${name}_var_2/7/075540000-075617500.vcf.gz
+            tabix ${name}_var_2/7/075540000-075617500.vcf.gz
+            """
+
+        else if (params.build=='hg19')
+            """
+            graphtyper genotype ${ref_dir}/${ref_genome} --sam=${name}.${ext} --sams_index=<(echo ${name}.${sam_ind}) --region=${region_a1} --output=${name}_var_2 --prior_vcf=${res_dir}/common_plus_core_var.vcf.gz -a ${debug38} ${cram_options}
+
+            bcftools concat ${name}_var_2/chr7/075540000-075589999.vcf.gz ${name}_var_2/chr7/075590000-075617500.vcf.gz -Oz -o ${name}_var_2/chr7/075540000-075617500.vcf.gz
+
+            tabix ${name}_var_2/chr7/075540000-075617500.vcf.gz
+            """
+
+        else
+            """
+            graphtyper genotype ${ref_dir}/${ref_genome} --sam=${name}.${ext} --sams_index=<(echo ${name}.${sam_ind}) --region=${region_a1} --output=${name}_var_2 --prior_vcf=${res_dir}/common_plus_core_var.vcf.gz -a ${debug38} ${cram_options}
+
+            bcftools concat ${name}_var_2/chr7/075913370-075963369.vcf.gz ${name}_var_2/chr7/075963370-075989900.vcf.gz -Oz -o ${name}_var_2/chr7/075913370-075989900.vcf.gz
+
+            tabix ${name}_var_2/chr7/075913370-075989900.vcf.gz
+            """
 
     else
         """
@@ -396,69 +522,84 @@ process call_snvs2 {
 process call_sv_del {
 //   maxForks 10
 
-   input:
-      set val(name), file(bam) from data3
-      path ref_dir from Channel.value("${ref_dir_val}")
-      path res_dir
+    input:
+    set val(name), file(bam) from data3
+    path ref_dir from Channel.value("${ref_dir_val}")
+    path res_dir
 
-   output:
-      set val(name), path("${name}_sv_del") into sv_ch1
+    output:
+    set val(name), path("${name}_sv_del") into sv_ch1
 
-   script:
-   ext1 = bam[0].getExtension()
-   if (ext1=='bam')
-       sam_ind='bam.bai'
-   else 
-       sam_ind='bai'
+    script:
+    ext1 = bam[0].getExtension()
+    if (ext1=='bam')
+        sam_ind='bam.bai'
+
+    else if (ext1=='cram')
+        sam_ind='cram.crai'
+
+    else if (ext1=='crai')
+        sam_ind='crai'
+
+    else 
+        sam_ind='bai'
       
-     """
-	graphtyper genotype_sv ${ref_dir}/${ref_genome} --sam=${name}.${ext} --region=${region_a1} --output=${name}_sv_del ${res_dir}/sv_test.vcf.gz
+    """
+    graphtyper genotype_sv ${ref_dir}/${ref_genome} --sam=${name}.${ext} --region=${region_a1} --output=${name}_sv_del ${res_dir}/sv_test.vcf.gz
 
-     """
+    """
 
 }
 
 process call_sv_dup {
 //   maxForks 10
 
-   input:
-      set val(name), file(bam) from data4
-      path ref_dir from Channel.value("${ref_dir_val}")
-      path res_dir
+    input:
+    set val(name), file(bam) from data4
+    path ref_dir from Channel.value("${ref_dir_val}")
+    path res_dir
 
-   output:
-      set val(name), path("${name}_sv_dup") into sv_ch2
+    output:
+    set val(name), path("${name}_sv_dup") into sv_ch2
 
-   script:
-   ext1 = bam[0].getExtension()
-   if (ext1=='bam')
-       sam_ind='bam.bai'
-   else 
-       sam_ind='bai'  
+    script:
+    ext1 = bam[0].getExtension()
+    if (ext1=='bam')
+        sam_ind='bam.bai'
 
-     """
-	graphtyper genotype_sv ${ref_dir}/${ref_genome} --sam=${name}.${ext} --region=${region_a1} --output=${name}_sv_dup ${res_dir}/sv_test3.vcf.gz
+    else if (ext1=='cram')
+        sam_ind='cram.crai'
 
-     """
+    else if (ext1=='crai')
+        sam_ind='crai'
+
+    else 
+        sam_ind='bai'  
+
+    """
+    graphtyper genotype_sv ${ref_dir}/${ref_genome} --sam=${name}.${ext} --region=${region_a1} --output=${name}_sv_dup ${res_dir}/sv_test3.vcf.gz
+
+    """
 }
 
 
 process get_depth {
 //   maxForks 10
 
-   input:
-      set val(name), file(bam) from data5
-      path ref_dir from Channel.value("${ref_dir_val}")
-      path res_dir
+    input:
+    set val(name), file(bam) from data5
+    path ref_dir from Channel.value("${ref_dir_val}")
+    path res_dir
 
-   output:
-      set val(name), file("${name}_${gene_name}_ctrl.depth") into sv_ch3
+    output:
+    set val(name), file("${name}_${gene_name}_ctrl.depth") into sv_ch3
 
-   script:
-     """   
-	samtools bedcov --reference ${ref_dir}/${ref_genome} ${res_dir}/test3.bed ${name}.${ext} > ${name}_${gene_name}_ctrl.depth      
+    script:
 
-     """
+    """   
+    samtools bedcov --reference ${ref_dir}/${ref_genome} ${res_dir}/test3.bed ${name}.${ext} > ${name}_${gene_name}_ctrl.depth      
+
+    """
 
 }
 
@@ -469,13 +610,14 @@ var_ch1.join(var_ch2).set { var_ch_joined }
 process format_snvs {
 //   maxForks 10
 
-   input:
-      set val(name), path("${name}_var_1"), path("${name}_var_2") from var_ch_joined
+    input:
+    set val(name), path("${name}_var_1"), path("${name}_var_2") from var_ch_joined
 
-   output:
-      set val(name), path("${name}_var") into (var_norm1, var_norm2)
+    output:
+    set val(name), path("${name}_var") into (var_norm1, var_norm2)
 
-   script:
+    script:
+
     """
         bcftools isec -p ${name}_var -Oz ${name}_var_1/${chrom}/${region_a2}.vcf.gz ${name}_var_2/${chrom}/${region_a2}.vcf.gz
         bcftools concat -a -D -r ${region_b1} ${name}_var/0000.vcf.gz ${name}_var/0001.vcf.gz ${name}_var/0002.vcf.gz -Oz -o ${name}_var/${name}_${region_b2}.vcf.gz
@@ -490,24 +632,24 @@ process format_snvs {
 process get_core_var {
 //   maxForks 10
    
-   errorStrategy 'ignore'
-   tag "${name}"   
+    errorStrategy 'ignore'
+    tag "${name}"   
 
-   input:
-      set val(name), path("${name}_vars") from var_norm1
-      path res_dir
+    input:
+    set val(name), path("${name}_vars") from var_norm1
+    path res_dir
 
-   output:
-      set val(name), path("${name}_int") into (core_vars1, core_vars2)
+    output:
+    set val(name), path("${name}_int") into (core_vars1, core_vars2)
 
-   script:
+    script:
  
     """
-      bcftools isec ${name}_vars/${name}_all_norm.vcf.gz ${res_dir}/allele_def_var.vcf.gz -p ${name}_int -Oz
-      bcftools norm -m - ${name}_int/0002.vcf.gz | bcftools view -e 'GT="1/0"' | bcftools view -e 'GT="0/0"' | bgzip -c > ${name}_int/${name}_core.vcf.gz
-      tabix ${name}_int/${name}_core.vcf.gz
+    bcftools isec ${name}_vars/${name}_all_norm.vcf.gz ${res_dir}/allele_def_var.vcf.gz -p ${name}_int -Oz
+    bcftools norm -m - ${name}_int/0002.vcf.gz | bcftools view -e 'GT="1/0"' | bcftools view -e 'GT="0/0"' | bgzip -c > ${name}_int/${name}_core.vcf.gz
+    tabix ${name}_int/${name}_core.vcf.gz
 
-     """
+    """
 
 }
 
@@ -516,19 +658,20 @@ process get_core_var {
 process analyse_1 {
 //   maxForks 10
 
-   errorStrategy 'ignore'
-   tag "${name}"
+    errorStrategy 'ignore'
+    tag "${name}"
 
-   input:
-      set val(name), path("${name}_gene_del") from sv_ch1
+    input:
+    set val(name), path("${name}_gene_del") from sv_ch1
 
-   output:
-      set val(name), path("${name}_gene_del/${name}_gene_del_summary.txt") into del_ch
+    output:
+    set val(name), path("${name}_gene_del/${name}_gene_del_summary.txt") into del_ch
 
-   script:
-     """
-      bcftools query -f'%ID\t%ALT\t[\t%GT\t%DP]\t%INFO/ABHet\t%INFO/ABHom\n' ${name}_gene_del/${chrom}/${region_a2}.vcf.gz > ${name}_gene_del/${name}_gene_del_summary.txt
-     """
+    script:
+
+    """
+    bcftools query -f'%ID\t%ALT\t[\t%GT\t%DP]\t%INFO/ABHet\t%INFO/ABHom\n' ${name}_gene_del/${chrom}/${region_a2}.vcf.gz > ${name}_gene_del/${name}_gene_del_summary.txt
+    """
 
 }
 
@@ -538,21 +681,22 @@ sv_ch2.join(core_vars1).set {dup_int}
 process analyse_2 {
 //   maxForks 10
 
-   errorStrategy 'ignore'
-   tag "${name}"
+    errorStrategy 'ignore'
+    tag "${name}"
 
-   input:
-      set val(name), path("${name}_gene_dup"), path("${name}_int") from dup_int
+    input:
+    set val(name), path("${name}_gene_dup"), path("${name}_int") from dup_int
 
-   output:
-      set val(name), path("${name}_gene_dup/${name}_gene_dup_summary.txt") into dup_ch
+    output:
+    set val(name), path("${name}_gene_dup/${name}_gene_dup_summary.txt") into dup_ch
 
-   script:
-     """
-      bcftools query -f'%POS~%REF>%ALT\t[\t%GT\t%DP]\t%INFO/ABHet\t%INFO/ABHom\n' -i'GT="alt"' ${name}_gene_dup/${chrom}/${region_a2}.vcf.gz > ${name}_gene_dup/${name}_gene_dup_summary.txt
-      bcftools query -f'%POS~%REF>%ALT\t[\t%GT\t%DP]\t%INFO/ABHet\t%INFO/ABHom\n' -i'GT="alt"' ${name}_int/${name}_core.vcf.gz >> ${name}_gene_dup/${name}_gene_dup_summary.txt
+    script:
 
-     """
+    """
+    bcftools query -f'%POS~%REF>%ALT\t[\t%GT\t%DP]\t%INFO/ABHet\t%INFO/ABHom\n' -i'GT="alt"' ${name}_gene_dup/${chrom}/${region_a2}.vcf.gz > ${name}_gene_dup/${name}_gene_dup_summary.txt
+    bcftools query -f'%POS~%REF>%ALT\t[\t%GT\t%DP]\t%INFO/ABHet\t%INFO/ABHom\n' -i'GT="alt"' ${name}_int/${name}_core.vcf.gz >> ${name}_gene_dup/${name}_gene_dup_summary.txt
+
+    """
 
 }
 
@@ -562,22 +706,22 @@ var_norm2.join(core_vars2).set {dip_req}
 process analyse_3 {
 //   maxForks 10
 
-   errorStrategy 'ignore'
-   tag "${name}"
+    errorStrategy 'ignore'
+    tag "${name}"
 
-   input:
-      set val(name), path("${name}_vars"), path("${name}_int") from dip_req
+    input:
+    set val(name), path("${name}_vars"), path("${name}_int") from dip_req
 
-   output:
-      set val(name), path("${name}_vars/${name}_core_snvs.dip"), path("${name}_vars/${name}_full.dip"), path("${name}_vars/${name}_gt.dip") into prep_ch
+    output:
+    set val(name), path("${name}_vars/${name}_core_snvs.dip"), path("${name}_vars/${name}_full.dip"), path("${name}_vars/${name}_gt.dip") into prep_ch
 
-   script:
-     """
-      bcftools query -f'[%POS~%REF>%ALT~%GT\n]' ${name}_int/${name}_core.vcf.gz  > ${name}_vars/${name}_core_snvs.dip
-      bcftools query -f '%POS~%REF>%ALT\n' ${name}_vars/${name}_all_norm.vcf.gz > ${name}_vars/${name}_full.dip
-      bcftools query -f'[%POS~%REF>%ALT~%GT\n]' ${name}_vars/${name}_all_norm.vcf.gz > ${name}_vars/${name}_gt.dip
+    script:
+    """
+    bcftools query -f'[%POS~%REF>%ALT~%GT\n]' ${name}_int/${name}_core.vcf.gz  > ${name}_vars/${name}_core_snvs.dip
+    bcftools query -f '%POS~%REF>%ALT\n' ${name}_vars/${name}_all_norm.vcf.gz > ${name}_vars/${name}_full.dip
+    bcftools query -f'[%POS~%REF>%ALT~%GT\n]' ${name}_vars/${name}_all_norm.vcf.gz > ${name}_vars/${name}_gt.dip
 
-     """
+    """
 
 }
 
@@ -590,23 +734,23 @@ fin_files2.join(sv_ch3).set {fin_files}
 process call_stars {
 //   maxForks 10
 
-   publishDir "$output_folder/$gene_name", mode: 'copy', overwrite: 'true'
+    publishDir "$output_folder/$gene_name", mode: 'copy', overwrite: 'true'
 
-   errorStrategy 'ignore'
-   tag "${name}"
+    errorStrategy 'ignore'
+    tag "${name}"
 
-   input:
-      set val(name), path("${name}_vars/${name}_core_snvs.dip"), path("${name}_vars/${name}_full.dip"), path("${name}_vars/${name}_gt.dip"), path("${name}_gene_del/${name}_gene_del_summary.txt"), path("${name}_gene_dup/${name}_gene_dup_summary.txt"), file("${name}_${gene_name}_dp") from fin_files
-      path db
-      path caller_dir
+    input:
+    set val(name), path("${name}_vars/${name}_core_snvs.dip"), path("${name}_vars/${name}_full.dip"), path("${name}_vars/${name}_gt.dip"), path("${name}_gene_del/${name}_gene_del_summary.txt"), path("${name}_gene_dup/${name}_gene_dup_summary.txt"), file("${name}_${gene_name}_dp") from fin_files
+    path db
+    path caller_dir
 
-   output:
-      set val(name), file("${name}_${gene_name}.alleles") into star_ch
+    output:
+    set val(name), file("${name}_${gene_name}.alleles") into star_ch
 
-   script:
+    script:
    
     """
-     python3 ${caller_dir}/stellarpgx.py ${db}/diplo_db_debugged2.dbs ${name}_vars/${name}_core_snvs.dip ${name}_vars/${name}_full.dip ${name}_vars/${name}_gt.dip ${db}/genotypes4.dbs ${name}_gene_del/${name}_gene_del_summary.txt ${name}_gene_dup/${name}_gene_dup_summary.txt ${name}_${gene_name}_dp ${db}/haps_var_new.dbs ${db}/a_scores.dbs > ${name}_${gene_name}.alleles  
+    python3 ${caller_dir}/stellarpgx.py ${db}/diplo_db_debugged2.dbs ${name}_vars/${name}_core_snvs.dip ${name}_vars/${name}_full.dip ${name}_vars/${name}_gt.dip ${db}/genotypes4.dbs ${name}_gene_del/${name}_gene_del_summary.txt ${name}_gene_dup/${name}_gene_dup_summary.txt ${name}_${gene_name}_dp ${db}/haps_var_new.dbs ${db}/a_scores.dbs > ${name}_${gene_name}.alleles  
 
     """
 
