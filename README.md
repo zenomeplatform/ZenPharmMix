@@ -8,7 +8,7 @@ Other CYP450 genes supported: CYP2A6, CYP2B6, CYP2C19, CYP2C9, CYP2C8, CYP3A4, C
 
 Non-CYP450 genes supported: CYPOR (POR)
 
-StellarPGx is built using [Nextflow](https://www.nextflow.io), a workflow management system that facilitates parallelisation, scalability, reproducibility and portability of pipelines via [`Docker`](https://docs.docker.com) and [`Singularity`](https://sylabs.io/) technologies.
+StellarPGx is built using [`Nextflow`](https://www.nextflow.io), a workflow management system that facilitates parallelisation, scalability, reproducibility and portability of pipelines via [`Docker`](https://docs.docker.com) and [`Singularity`](https://sylabs.io/) technologies.
 
 Maintainer: David Twesigomwe (twesigomwedavid@gmail.com)
 
@@ -312,7 +312,7 @@ bash get_results_summary.sh -s <sample-names-list> -o <output-file-name>
 
 If you use StellarPGx in your PGx analysis, please cite our recently accepted article:
 
-David Twesigomwe, Britt I. Drögemöller, Galen E.B. Wright, Azra Siddiqui, Jorge da Rocha, Zané Lombard and Scott Hazelhurst. StellarPGx: A Nextflow pipeline for calling star alleles in cytochrome P450 genes. *Clinical Pharmacology and Therapeutics*. doi:10.1002/cpt.2173. [Epub ahead of print].
+David Twesigomwe, Britt I. Drögemöller, Galen E.B. Wright, Azra Siddiqui, Jorge da Rocha, Zané Lombard and Scott Hazelhurst. StellarPGx: A Nextflow pipeline for calling star alleles in cytochrome P450 genes. *Clinical Pharmacology and Therapeutics*. [doi:10.1002/cpt.2173](https://ascpt.onlinelibrary.wiley.com/doi/abs/10.1002/cpt.2173). [Epub ahead of print].
 
 
 ## License
