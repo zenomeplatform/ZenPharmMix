@@ -51,10 +51,14 @@ if snv_def_calls == None:
 
 
     else:
+        print("\nCandidate alleles:")
+        print("[" + bac_alleles[-1] + "]")
+
         print("\nResult:")
         print("Possible novel allele or suballele present: interpret with caution")
+
         print("\nLikely background alleles:")
-        print("[" + bac_alleles + "]")
+        print("[" + bac_alleles[0] + "]")
 
     sys.exit()
 

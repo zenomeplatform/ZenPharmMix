@@ -50,7 +50,7 @@ if snv_def_calls == None:
 
 
     elif bac_alleles != None and int(cn) < 2:
-        bac_alleles = bac_alleles.split("/")
+        bac_alleles = bac_alleles[0].split("/")
         bac_alleles1 = bac_alleles[0] + "/" + "*4"
         print("\nResult:")
         print("Possible novel allele or suballele present: interpret with caution; experimental validation and expert review through PharmVar is recommended")
@@ -58,10 +58,13 @@ if snv_def_calls == None:
         print("[" + bac_alleles1 + "]")
 
     else:
+        print("\nCandidate alleles:")
+        print("[" + bac_alleles[-1] + "]")
+
         print("\nResult:")
         print("Possible novel allele or suballele present: interpret with caution; experimental validation and expert review through PharmVar is recommended")
         print("\nLikely background alleles:")
-        print("[" + bac_alleles + "]")
+        print("[" + bac_alleles[0] + "]")
 
     sys.exit()
 
@@ -98,8 +101,6 @@ gene_alleles = ""
 if snv_def_alleles != '*1/*1' and cn != '0':
     in_list = dup_test_init(sv_dup, av_cov)
 
-
-# if cn == '2' and snv_def_alleles == '*1/*1':
 
 
 if cn == '2':

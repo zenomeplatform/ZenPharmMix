@@ -50,10 +50,13 @@ if snv_def_calls == None:
 
 
     else:
+        print("\nCandidate alleles:")
+        print("[" + bac_alleles[-1] + "]")
+
         print("\nResult:")
         print("Possible novel allele or suballele present: interpret with caution; experimental validation and expert review through PharmVar is recommended")
         print("\nLikely background alleles:")
-        print("[" + bac_alleles + "]")
+        print("[" + bac_alleles[0] + "]")
 
     sys.exit()
 
@@ -80,8 +83,6 @@ print("\nResult:")
 
 
 av_cov = get_total_CN(cov_file)[1]
-# cov_e1_e2 = get_total_CN(cov_file)[3]
-# cov_e3_e9 = get_total_CN(cov_file)[4]
 
 
 gene_alleles = ""
@@ -89,9 +90,6 @@ gene_alleles = ""
 
 if snv_def_alleles != '*1/*1' and cn != '0':
     in_list = dup_test_init(sv_dup, av_cov)
-
-
-# if cn == '2' and snv_def_alleles == '*1/*1':
 
 
 if cn == '2':
@@ -102,33 +100,6 @@ if cn == '2':
     else:
         gene_alleles = snv_def_alleles
         print(gene_alleles)
-
-        # snv_def_alleles = snv_def_alleles.split("/")
-
-        # if snv_def_alleles[0] == '*1' or snv_def_alleles[1] == '*1':
-        #     ind_star2 = snv_def_alleles.index('*1')
-        #     ind_other = 1 - ind_star2
-
-        #     test_29 = hybrid_29_test1(cov_e1_int4, cov_int4_e9)
-        #     test_30 = hybrid_30_test1(cov_e1_int4, cov_int4_e9)
-
-
-        #     if test_29 == 'norm_var' and test_30 == 'norm_var':
-        #         gene_alleles = "/".join(snv_def_alleles)
-        #         print(gene_alleles)
-
-        #     elif test_29 == 'hyb_29':
-        #         gene_alleles = snv_def_alleles[ind_other] + "/" + "*29"
-        #         print(gene_alleles)
-
-        #     elif test_29 == 'hyb_29_2' and snv_def_alleles == "*1/*1":
-        #         gene_alleles = "*29/*29"
-        #         print(gene_alleles)
-
-
-        # else:
-        #     gene_alleles = "/".join(snv_def_alleles)
-        #     print(gene_alleles)
 
 
 
@@ -164,7 +135,7 @@ elif cn == '1':
 
         elif snv_def_alleles[0] != snv_def_alleles[1]:
             samp_allele1 = del_adv_test(hap_dbs, snv_cand_alleles[0], snv_cand_alleles[1], snv_def_alleles[0], snv_def_alleles[1], supp_core_vars)
-            # print(samp_allele1)                                                                                                                         
+  
             gene_alleles = samp_allele1 + "/" + "*36"
             print(gene_alleles)
 
@@ -192,9 +163,6 @@ elif cn == '1':
 
 elif (int(cn) == 3 or int(cn) == 4) and snv_def_alleles != None:
 
-    # in_list = dup_test_init(sv_dup, av_cov)
-    # print (snv_def_alleles)
-    # print (snv_cand_alleles)
     orig = snv_def_alleles
 
     if "or" in snv_def_alleles:
@@ -206,9 +174,7 @@ elif (int(cn) == 3 or int(cn) == 4) and snv_def_alleles != None:
         snv_cand_alleles = snv_cand_alleles.split("_")
 
         if snv_def_alleles[0] != snv_def_alleles[1]:
-            # print("\n" + dup_test(sv_dup, hap_dbs, snv_def_alleles[0], snv_def_alleles[1], cn))
-            # print (snv_cand_alleles)
-            # print ("\n")
+
             phased_dup = dup_test_cn_3_4(sv_dup, hap_dbs, snv_cand_alleles[0], snv_cand_alleles[1], snv_def_alleles[0], snv_def_alleles[1], cn, av_cov, in_list)
 
             phased_dup1 = phased_dup.split("/")
