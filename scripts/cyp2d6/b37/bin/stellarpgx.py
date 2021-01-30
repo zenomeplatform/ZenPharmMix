@@ -42,10 +42,13 @@ if snv_def_calls == None:
 
     bac_alleles = get_backgroud_alleles(database, supp_core_vars)
 
-    if bac_alleles == None:
+    if int(cn) == 0:
+        print("\nResult:")
+        print("*5/*5")
+
+    elif bac_alleles == None:
         print("\nResult:")
         print("Possible novel allele or suballele present: interpret with caution")
-
 
     elif bac_alleles != None and int(cn) < 2:
         bac_alleles = bac_alleles[0].split("/")
