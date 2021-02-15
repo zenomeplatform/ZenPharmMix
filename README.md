@@ -295,7 +295,7 @@ See result files matching each sample in the `./results/<(gene)>` folder or cust
 
 Notice that there is a separate result-file for each sample and a separate results directory for each gene. We have included a handy script called `get_results_summary.sh` under ./scripts/general in order to facilitate getting the summary of allele calls after running StellarPGx. 
 
-For example, if one wishes to get a summary of CYP2D6 allele calls for each sample in the ./results/cyp2d6 folder after analysis, the following easy steps would produce a nice and simple summary table;
+For example, if one wishes to get a summary of *CYP2D6* allele calls for each sample in the ./results/cyp2d6 folder after analysis, the following easy steps would produce a nice and simple summary table;
 
 1. Copy the `get_results_summary.sh` script to the directory with the results files
 
@@ -308,6 +308,10 @@ cp path/to/scripts/general/get_results_summary.sh path/to/results/cyp2d6/
 ```bash
 bash get_results_summary.sh -s <sample-names-list> -o <output-file-name>
 ```
+
+
+#### NB: Since `StellarPGx` is based on `Nextflow`, a directory called `work` is created each time you run the pipeline. The `work` directory is primarily useful for debugging purposes as it contains the input, output, script details and error report for each process in the pipeline. Remember to delete these `work` directories after your analysis to save space on your disk.    
+
 
 
 ## Citation

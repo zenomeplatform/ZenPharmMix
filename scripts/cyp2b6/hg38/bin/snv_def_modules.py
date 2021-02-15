@@ -176,36 +176,6 @@ def cand_snv_allele_calling(database, infile, infile_full, infile_full_gt, infil
             hap2 = "*" + str (diplo2[res1[0]+1:res2[1]])
             allele_res =  hap1 + "/" + hap2 
             return [soln_list1, diplo2, allele_res];
-            #print ("Supporting variants:")
-            #print ("\n" + core_variants + "\n")
-
-        # elif len(uniq_diplo1) == len(uniq_diplo2) and (diplo1 == "4.v11_74.v1" and diplo2 == "4.v12_1.v1"):
-        #     res1 = [i for i in range(len(diplo2)) if diplo2.startswith("_", i)]
-        #     res2 = [i for i in range(len(diplo2)) if diplo2.startswith(".", i)]
-        #     hap1 = "*" + str (diplo2[:res2[0]])
-        #     hap2 = "*" + str (diplo2[res1[0]+1:res2[1]])
-        #     allele_res =  hap1 + "/" + hap2
-        #     return [soln_list1, diplo2, allele_res];
-    
-        # elif len(uniq_diplo1) == len(uniq_diplo2) and diplo2 == "1.v1_16.v1":
-        #     res1 = [i for i in range(len(diplo2)) if diplo2.startswith("_", i)]
-        #     res2 = [i for i in range(len(diplo2)) if diplo2.startswith(".", i)]
-        #     hap1 = "*" + str (diplo2[:res2[0]])
-        #     hap2 = "*" + str (diplo2[res1[0]+1:res2[1]])
-        #     allele_res =  hap1 + "/" + hap2 
-        #     return [soln_list1, diplo2, allele_res];
-            #print ("Supporting variants:")
-            #print ("\n" + core_variants + "\n")
-
-        # elif len(uniq_diplo1) == len(uniq_diplo2) and (diplo1 == "4.v1_6.v1" and diplo2 == "4.v4_6.v2") :
-        #     res1 = [i for i in range(len(diplo1)) if diplo1.startswith("_", i)]
-        #     res2 = [i for i in range(len(diplo1)) if diplo1.startswith(".", i)]
-        #     hap1 = "*" + str (diplo1[:res2[0]])
-        #     hap2 = "*" + str (diplo1[res1[0]+1:res2[1]])
-        #     allele_res =  hap1 + "/" + hap2 
-        #     return [soln_list1, diplo1, allele_res];
-            #print ("Supporting variants:")
-            #print ("\n" + core_variants + "\n")
     
     
         else:
@@ -215,7 +185,7 @@ def cand_snv_allele_calling(database, infile, infile_full, infile_full_gt, infil
             score = []
             for line in f:
                 line = line.strip().split()
-                #print(line)
+
                 if line[2] == core_variants:
                     tiebreak1.append(line[1])
                     tiebreak2.append(line[3])
@@ -230,12 +200,10 @@ def cand_snv_allele_calling(database, infile, infile_full, infile_full_gt, infil
                 score.append(score_dip)
 
             min_score = min(score)    
-            #print(score)
-            # return [tiebreak1, score];
             
 
-            if chkList(score) == "Equal" and soln_list1[1] == "1.v1_16.v1":
-                elem = "1.v1_16.v1"
+            if chkList(score) == "Equal" and soln_list1[1] == "1.v1_18.v2":
+                elem = "1.v1_18.v2"
                 res1 = [i for i in range(len(elem)) if elem.startswith("_", i)]
                 res2 = [i for i in range(len(elem)) if elem.startswith(".", i)]
                 hap1 = "*" + str (elem[:res2[0]])
@@ -307,15 +275,6 @@ def cand_snv_allele_calling(database, infile, infile_full, infile_full_gt, infil
                 result_dip = hap1 + "/" + hap2
                 return [soln_list1, elem, result_dip];
 
-            # elif chkList(score) == "Equal" and soln_list1[0] == "1.v1_34.v1":
-            #     elem = "1.v1_34.v1"
-            #     res1 = [i for i in range(len(elem)) if elem.startswith("_", i)]
-            #     res2 = [i for i in range(len(elem)) if elem.startswith(".", i)]
-            #     hap1 = "*" + str (elem[:res2[0]])
-            #     hap2 = "*" + str (elem[res1[0]+1:res2[1]])
-            #     result_dip = hap1 + "/" + hap2
-            #     return [soln_list1, elem, result_dip];
-
 
             elif chkList(score) == "Equal":
                 amb_soln_set = []
@@ -326,22 +285,9 @@ def cand_snv_allele_calling(database, infile, infile_full, infile_full_gt, infil
                     hap2 = "*" + str (elem[res1[0]+1:res2[1]])
                     result_dip = hap1 + "/" + hap2
                     amb_soln_set.append(result_dip)
-                    #elem_pos = tiebreak1.index(elem)
-                    #print ("Solution " + str(elem_pos) + ": " + result_dip)
+
                 allele_res =  " or ".join(amb_soln_set) 
                 return [soln_list1, allele_res];
-                #print ("\nSupporting core variants:")
-                #print ("\n" + core_variants + "\n")
-
-
-                #amb_soln_set.append(result_dip)
-                #elem_pos = tiebreak1.index(elem)                                                                                                             
-                #print ("Solution " + str(elem_pos) + ": " + result_dip)                                                                                      
-                #print("\n" + result_dip)
-
-                #print ("\nSupporting core variants:")
-                #print ("\n" + core_variants + "\n")
-
 
             elif score.count(min_score) > 1 and soln_list1[1] == "6.v1_8.v1":
                 amb_soln_set = []
@@ -356,38 +302,11 @@ def cand_snv_allele_calling(database, infile, infile_full, infile_full_gt, infil
                     hap2 = "*" + str (elem[res1[0]+1:res2[1]])
                     result_dip = hap1 + "/" + hap2
                     amb_soln_set.append(result_dip)
-                    elem_pos = tiebreak1.index(elem)                                                                                                            
-    
-                    #print ("Solution " + str(elem_pos) + ": " + result_dip)                                                                                     
+                    elem_pos = tiebreak1.index(elem)                                                                                                                     
         
                 allele_res =  " or ".join(amb_soln_set)
                 return [soln_list1, allele_res];
 
-                #print ("\nSupporting core variants:")
-                #print ("\n" + core_variants + "\n")
-
-
-            # elif score.count(min_score) > 1 and soln_list1[0] == "1.v1_2.v1" and soln_list1[1] == "34.v1_39.v1":
-            #     amb_soln_set = []
-            #     temp_set = []
-            #     temp_set.append("1.v1_2.v1")
-            #     temp_set.append("34.v1_39.v1")
-            #     for elem in temp_set:
-            #         res1 = [i for i in range(len(elem)) if elem.startswith("_", i)]
-            #         res2 = [i for i in range(len(elem)) if elem.startswith(".", i)]
-            #         hap1 = "*" + str (elem[:res2[0]])
-            #         hap2 = "*" + str (elem[res1[0]+1:res2[1]])
-            #         result_dip = hap1 + "/" + hap2
-            #         amb_soln_set.append(result_dip)
-                    #elem_pos = tiebreak1.index(elem)                                                                                                            
-
-                    #print ("Solution " + str(elem_pos) + ": " + result_dip)                                                                                     
-
-                # allele_res =  " or ".join(amb_soln_set) 
-                # return [soln_list1, allele_res];
-                #print ("\nSupporting core variants:")
-                #print ("\n" + core_variants + "\n")
-        
 
             elif score.count(min_score) > 2:
                 amb_soln_set = []
@@ -402,12 +321,9 @@ def cand_snv_allele_calling(database, infile, infile_full, infile_full_gt, infil
                     hap2 = "*" + str (elem[res1[0]+1:res2[1]])
                     result_dip = hap1 + "/" + hap2
                     amb_soln_set.append(result_dip)
-                    #elem_pos = tiebreak1.index(elem)                                                                                                             
-                #print ("Solution " + str(elem_pos) + ": " + result_dip)                                                                                      
+      
                 allele_res = " or ".join(amb_soln_set)
                 return [soln_list1, allele_res];
-                #print ("\nSupporting core variants:")
-                #print ("\n" + core_variants + "\n")
 
 
             else:
@@ -420,8 +336,6 @@ def cand_snv_allele_calling(database, infile, infile_full, infile_full_gt, infil
                 hap2 = "*" + str (best_diplo[res1[0]+1:res2[1]])
                 allele_res =  hap1 + "/" + hap2 
                 return [soln_list1, best_cand_haps, allele_res];
-                #print ("Supporting core variants:")
-                #print ("\n" + core_variants + "\n")
 
 
     elif len(soln_list1) == 3:
@@ -453,8 +367,6 @@ def cand_snv_allele_calling(database, infile, infile_full, infile_full_gt, infil
             hap2 = "*" + str (diplo1[res1[0]+1:res2[1]])
             allele_res = hap1 + "/" + hap2
             return [soln_list1, diplo1, allele_res];
-            #print ("Supporting variants:")
-            #print ("\n" + core_variants + "\n")
 
         elif len(uniq_diplo1) > len(uniq_diplo2) and len(uniq_diplo2) < len(uniq_diplo3):
             res1 = [i for i in range(len(diplo2)) if diplo2.startswith("_", i)]
@@ -463,8 +375,6 @@ def cand_snv_allele_calling(database, infile, infile_full, infile_full_gt, infil
             hap2 = "*" + str (diplo2[res1[0]+1:res2[1]])
             allele_res = hap1 + "/" + hap2
             return [soln_list1, diplo2, allele_res]
-            #print ("Supporting variants:")
-            #print ("\n" + core_variants + "\n")
 
         elif len(uniq_diplo1) > len(uniq_diplo2) and len(uniq_diplo2) > len(uniq_diplo3):
             res1 = [i for i in range(len(diplo3)) if diplo3.startswith("_", i)]
@@ -473,19 +383,6 @@ def cand_snv_allele_calling(database, infile, infile_full, infile_full_gt, infil
             hap2 = "*" + str (diplo3[res1[0]+1:res2[1]])
             allele_res = hap1 + "/" + hap2
             return [soln_list1, diplo3, allele_res]
-            #print ("Supporting variants:")
-            #print ("\n" + core_variants + "\n")
-
-
-        # elif len(uniq_diplo1) == len(uniq_diplo2) == len(uniq_diplo3) and diplo3 == "39.v1_4.v4":
-        #     res1 = [i for i in range(len(diplo3)) if diplo3.startswith("_", i)]
-        #     res2 = [i for i in range(len(diplo3)) if diplo3.startswith(".", i)]
-        #     hap1 = "*" + str (diplo3[:res2[0]])
-        #     hap2 = "*" + str (diplo3[res1[0]+1:res2[1]])
-        #     allele_res = hap1 + "/" + hap2
-        #     return [soln_list1, diplo3, allele_res]
-            #print ("Supporting variants:")
-            #print ("\n" + core_variants + "\n")
 
 
         elif len(uniq_diplo1) == len(uniq_diplo2) == len(uniq_diplo3) or (len(uniq_diplo1) != len(uniq_diplo2) == len(uniq_diplo3)) or (len(uniq_diplo1) == len(uniq_diplo2) != len(uniq_diplo3)):
@@ -496,7 +393,7 @@ def cand_snv_allele_calling(database, infile, infile_full, infile_full_gt, infil
             score = []
             for line in f:
                 line = line.strip().split()
-                #print(line)                                                                                                                  
+
                 if line[2] == core_variants:
                     tiebreak1.append(line[1])
                     tiebreak2.append(line[3])
@@ -511,7 +408,6 @@ def cand_snv_allele_calling(database, infile, infile_full, infile_full_gt, infil
                 score.append(score_dip)
 
             min_score = min(score)
-            # print(score)
         
             if chkList(score) == "Equal":
                 amb_soln_set = []
@@ -522,12 +418,9 @@ def cand_snv_allele_calling(database, infile, infile_full, infile_full_gt, infil
                     hap2 = "*" + str (elem[res1[0]+1:res2[1]])
                     result_dip = hap1 + "/" + hap2
                     amb_soln_set.append(result_dip)
-                    #elem_pos = tiebreak1.index(elem)                                                                                                             
-                    #print ("Solution " + str(elem_pos) + ": " + result_dip)                                                                                      
+          
                 allele_res = " or ".join(amb_soln_set)
                 return [soln_list1, tiebreak1, allele_res];
-                #print ("\nSupporting core variants:")
-                #print ("\n" + core_variants + "\n")
 
 
             else:
@@ -540,10 +433,3 @@ def cand_snv_allele_calling(database, infile, infile_full, infile_full_gt, infil
                 hap2 = "*" + str (best_diplo[res1[0]+1:res2[1]])
                 allele_res = hap1 + "/" + hap2
                 return [soln_list1, best_cand_haps, allele_res];
-                #print ("Supporting core variants:")
-                #print ("\n" + core_variants + "\n")
-
-
-
-    #print("\nFull diplotype variants:")
-    #print("\n" + ";".join(all_var_gt))
