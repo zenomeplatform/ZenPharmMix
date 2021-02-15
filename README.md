@@ -198,6 +198,10 @@ Similar to Singularity run.
 
 ## Running StellarPGx on your project data
 
+#### Tip: 
+Depending on your network connection to a computer cluster, it is highly recommended to run StellarPGx while using [`screen`](https://www.gnu.org/software/screen/) when analysing multiple samples so that in case your connection breaks, the jobs are not terminated midway through.
+
+
 Once again, the following steps assume that;
     i. StellarPGx is your current working directory
     ii. Nextflow and Singularity or Docker are already installed
@@ -310,7 +314,8 @@ bash get_results_summary.sh -s <sample-names-list> -o <output-file-name>
 ```
 
 
-#### NB: Since `StellarPGx` is based on `Nextflow`, a directory called `work` is created each time you run the pipeline. The `work` directory is primarily useful for debugging purposes as it contains the input, output, script details and error report for each process in the pipeline. Remember to delete these `work` directories after your analysis to save space on your disk.    
+#### NB: 
+Since `StellarPGx` is based on `Nextflow`, a directory called `work` is created each time you run the pipeline. The `work` directory is primarily useful for debugging purposes as it contains the input, output, script details and error report for each process in the pipeline. Remember to delete these `work` directories after your analysis to save space on your disk.    
 
 
 
