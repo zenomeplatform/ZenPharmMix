@@ -73,9 +73,6 @@ def cand_snv_allele_calling(database, infile, infile_full, infile_full_gt, infil
         else:
             pass
 
-    #return soln_list1
-
-    #print("\nResult:")
 
     diff_alleles_check = False
 
