@@ -238,40 +238,6 @@ def cand_snv_allele_calling(database, infile, infile_full, infile_full_gt, infil
                         allele_res = amb_soln_set[0]
 
                     return [soln_list1, allele_res];
-                #print ("\nSupporting core variants:")
-                #print ("\n" + core_variants + "\n")
-
-            # elif chkList(score) == "Equal" and soln_list1[1] == "39.v1_4.v5":
-            #     elem = "39.v1_4.v5"
-            #     res1 = [i for i in range(len(elem)) if elem.startswith("_", i)]
-            #     res2 = [i for i in range(len(elem)) if elem.startswith(".", i)]
-            #     hap1 = "*" + str (elem[:res2[0]])
-            #     hap2 = "*" + str (elem[res1[0]+1:res2[1]])
-            #     result_dip = hap1 + "/" + hap2
-            #     return [soln_list1, elem, result_dip];
-
-
-            # elif score.count(min_score) > 1 and soln_list1[1] == "39.v1_4.v5":
-            #     amb_soln_set = []
-            #     temp_set = []
-            #     temp_set.append(tiebreak1[0])
-            #     temp_set.append(tiebreak1[-1])
-
-            #     for elem in temp_set:
-            #         res1 = [i for i in range(len(elem)) if elem.startswith("_", i)]
-            #         res2 = [i for i in range(len(elem)) if elem.startswith(".", i)]
-            #         hap1 = "*" + str (elem[:res2[0]])
-            #         hap2 = "*" + str (elem[res1[0]+1:res2[1]])
-            #         result_dip = hap1 + "/" + hap2
-            #         amb_soln_set.append(result_dip)
-
-            #     if amb_soln_set[0] != amb_soln_set[1]:
-            #         allele_res =  " or ".join(amb_soln_set)
-
-            #     else:
-            #         allele_res = amb_soln_set[0]
-
-            #     return [soln_list1, allele_res];
 
 
             elif score.count(min_score) > 1 and soln_list1[0] == "1.v1_2.v1" and soln_list1[1] == "34.v1_39.v1" :
