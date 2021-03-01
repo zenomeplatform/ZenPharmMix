@@ -1,0 +1,107 @@
+chr##fileformat=VCFv4.1
+chr##FILTER=<ID=PASS,Description="All filters passed">
+chr##fileDate=20200810
+chr##contig=<ID=1,length=249250621>
+chr##contig=<ID=2,length=243199373>
+chr##contig=<ID=3,length=198022430>
+chr##contig=<ID=4,length=191154276>
+chr##contig=<ID=5,length=180915260>
+chr##contig=<ID=6,length=171115067>
+chr##contig=<ID=7,length=159138663>
+chr##contig=<ID=8,length=146364022>
+chr##contig=<ID=9,length=141213431>
+chr##contig=<ID=10,length=135534747>
+chr##contig=<ID=11,length=135006516>
+chr##contig=<ID=12,length=133851895>
+chr##contig=<ID=13,length=115169878>
+chr##contig=<ID=14,length=107349540>
+chr##contig=<ID=15,length=102531392>
+chr##contig=<ID=16,length=90354753>
+chr##contig=<ID=17,length=81195210>
+chr##contig=<ID=18,length=78077248>
+chr##contig=<ID=19,length=59128983>
+chr##contig=<ID=20,length=63025520>
+chr##contig=<ID=21,length=48129895>
+chr##contig=<ID=22,length=51304566>
+chr##contig=<ID=X,length=155270560>
+chr##contig=<ID=Y,length=59373566>
+chr##contig=<ID=MT,length=16569>
+chr##contig=<ID=GL000191.1,length=106433>
+chr##contig=<ID=GL000192.1,length=547496>
+chr##contig=<ID=GL000193.1,length=189789>
+chr##contig=<ID=GL000194.1,length=191469>
+chr##contig=<ID=GL000195.1,length=182896>
+chr##contig=<ID=GL000196.1,length=38914>
+chr##contig=<ID=GL000197.1,length=37175>
+chr##contig=<ID=GL000198.1,length=90085>
+chr##contig=<ID=GL000199.1,length=169874>
+chr##contig=<ID=GL000200.1,length=187035>
+chr##contig=<ID=GL000201.1,length=36148>
+chr##contig=<ID=GL000202.1,length=40103>
+chr##contig=<ID=GL000203.1,length=37498>
+chr##contig=<ID=GL000204.1,length=81310>
+chr##contig=<ID=GL000205.1,length=174588>
+chr##contig=<ID=GL000206.1,length=41001>
+chr##contig=<ID=GL000207.1,length=4262>
+chr##contig=<ID=GL000208.1,length=92689>
+chr##contig=<ID=GL000209.1,length=159169>
+chr##contig=<ID=GL000210.1,length=27682>
+chr##contig=<ID=GL000211.1,length=166566>
+chr##contig=<ID=GL000212.1,length=186858>
+chr##contig=<ID=GL000213.1,length=164239>
+chr##contig=<ID=GL000214.1,length=137718>
+chr##contig=<ID=GL000215.1,length=172545>
+chr##contig=<ID=GL000216.1,length=172294>
+chr##contig=<ID=GL000217.1,length=172149>
+chr##contig=<ID=GL000218.1,length=161147>
+chr##contig=<ID=GL000219.1,length=179198>
+chr##contig=<ID=GL000220.1,length=161802>
+chr##contig=<ID=GL000221.1,length=155397>
+chr##contig=<ID=GL000222.1,length=186861>
+chr##contig=<ID=GL000223.1,length=180455>
+chr##contig=<ID=GL000224.1,length=179693>
+chr##contig=<ID=GL000225.1,length=211173>
+chr##contig=<ID=GL000226.1,length=15008>
+chr##contig=<ID=GL000227.1,length=128374>
+chr##contig=<ID=GL000228.1,length=129120>
+chr##contig=<ID=GL000229.1,length=19913>
+chr##contig=<ID=GL000230.1,length=43691>
+chr##contig=<ID=GL000231.1,length=27386>
+chr##contig=<ID=GL000232.1,length=40652>
+chr##contig=<ID=GL000233.1,length=45941>
+chr##contig=<ID=GL000234.1,length=40531>
+chr##contig=<ID=GL000235.1,length=34474>
+chr##contig=<ID=GL000236.1,length=41934>
+chr##contig=<ID=GL000237.1,length=45867>
+chr##contig=<ID=GL000238.1,length=39939>
+chr##contig=<ID=GL000239.1,length=33824>
+chr##contig=<ID=GL000240.1,length=41933>
+chr##contig=<ID=GL000241.1,length=42152>
+chr##contig=<ID=GL000242.1,length=43523>
+chr##contig=<ID=GL000243.1,length=43341>
+chr##contig=<ID=GL000244.1,length=39929>
+chr##contig=<ID=GL000245.1,length=36651>
+chr##contig=<ID=GL000246.1,length=38154>
+chr##contig=<ID=GL000247.1,length=36422>
+chr##contig=<ID=GL000248.1,length=39786>
+chr##contig=<ID=GL000249.1,length=38502>
+chr##contig=<ID=NC_007605,length=171823>
+chr##description="CYP2C8 NC_000010.10 CYP2C8*10.001 PV00295"
+chr##version=4.1.8
+chr##bcftools_mergeVersion=1.10.2-91-g365d117+htslib-1.10.2-106-g9c35744
+chr##bcftools_mergeCommand=merge -m none -Oz -o ../databases/allele_var.vcf.gz test1/10.v1.vcf.gz test1/11.v1.vcf.gz test1/12.v1.vcf.gz test1/13.v1.vcf.gz test1/14.v1.vcf.gz test1/1.v1.vcf.gz test1/2.v1.vcf.gz test1/3.v1.vcf.gz test1/4.v1.vcf.gz test1/5.v1.vcf.gz test1/6.v1.vcf.gz test1/7.v1.vcf.gz test1/8.v1.vcf.gz test1/9.v1.vcf.gz; Date=Sun Sep 13 21:26:15 2020
+chr#CHROM	POS	ID	REF	ALT	QUAL	FILTER	INFO
+chr10	96796973	rs3832694	TCAA	T	.	.	.
+chr10	96798749	rs10509681	T	C	.	.	.
+chr10	96802647	.	C	A	.	.	.
+chr10	96805708	rs78637571	C	A	.	.	.
+chr10	96818106	rs11572103	T	A	.	.	.
+chr10	96818119	rs1058930	G	C	.	.	.
+chr10	96818171	rs769460274	T	C	.	.	.
+chr10	96818199	rs188934928	C	G	.	.	.
+chr10	96818242	.	A	C	.	.	.
+chr10	96824643	rs72558195	G	A	.	.	.
+chr10	96824643	rs72558195	G	C	.	.	.
+chr10	96824688	rs142886225	C	T	.	.	.
+chr10	96826970	rs72558196	GT	G	.	.	.
+chr10	96827030	rs11572080	C	T	.	.	.
