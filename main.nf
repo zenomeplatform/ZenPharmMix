@@ -618,7 +618,7 @@ process format_snvs {
 
     output:
     set val(name), path("${name}_var") into (var_norm1, var_norm2)
-    set val(name), file("${name}_all_norm.vcf.gz"), file("${name}_all_norm.vcf.gz.tbi") into var_norm3
+    set val(name), file("${name}_${gene_name}.vcf.gz"), file("${name}_${gene_name}.vcf.gz.tbi") into var_norm3
 
     script:
 
