@@ -159,10 +159,10 @@ elif cn == '0':
 elif cn == '1':
     del_confirm = del_test(sv_del)
  
-    if "or" in snv_def_alleles and del_confirm == None:
+    if "or" in snv_def_alleles and del_confirm == 'None':
         print (snv_def_alleles + "\t" + "Possible CYP2A6 gene deletion (*4) present")
 
-    elif "or" not in snv_def_alleles and del_confirm == None:
+    elif "or" not in snv_def_alleles and del_confirm == 'None':
         snv_def_alleles = snv_def_alleles.split("/")
         snv_cand_alleles = "".join(snv_cand_alleles)
         snv_cand_alleles = snv_cand_alleles.split("_")
@@ -173,7 +173,7 @@ elif cn == '1':
 
         elif snv_def_alleles[0] != snv_def_alleles[1]:
             samp_allele1 = del_adv_test(hap_dbs, snv_cand_alleles[0], snv_cand_alleles[1], snv_def_alleles[0], snv_def_alleles[1], supp_core_vars)
-            # print(samp_allele1)                                                                                                                         
+            
             gene_alleles = samp_allele1 + "/" + "*4"
             print(gene_alleles)
 
@@ -201,9 +201,6 @@ elif cn == '1':
 
 elif (int(cn) == 3 or int(cn) == 4) and snv_def_alleles != None:
 
-    # in_list = dup_test_init(sv_dup, av_cov)
-    # print (snv_def_alleles)
-    # print (snv_cand_alleles)
     orig = snv_def_alleles
 
     if "or" in snv_def_alleles:
@@ -215,9 +212,7 @@ elif (int(cn) == 3 or int(cn) == 4) and snv_def_alleles != None:
         snv_cand_alleles = snv_cand_alleles.split("_")
 
         if snv_def_alleles[0] != snv_def_alleles[1]:
-            # print("\n" + dup_test(sv_dup, hap_dbs, snv_def_alleles[0], snv_def_alleles[1], cn))
-            # print (snv_cand_alleles)
-            # print ("\n")
+
             phased_dup = dup_test_cn_3_4(sv_dup, hap_dbs, snv_cand_alleles[0], snv_cand_alleles[1], snv_def_alleles[0], snv_def_alleles[1], cn, av_cov, in_list)
 
         elif snv_def_alleles[0] == snv_def_alleles[1]:

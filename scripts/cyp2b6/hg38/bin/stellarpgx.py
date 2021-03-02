@@ -149,10 +149,10 @@ elif cn == '0':
 elif cn == '1':
     del_confirm = del_test(sv_del)
  
-    if "or" in snv_def_alleles and del_confirm == None:
+    if "or" in snv_def_alleles and del_confirm == 'None':
         print (snv_def_alleles + "\t" + "Possible CYP2B6 gene deletion present")
 
-    elif "or" not in snv_def_alleles and del_confirm == None:
+    elif "or" not in snv_def_alleles and del_confirm == 'None':
         snv_def_alleles = snv_def_alleles.split("/")
         snv_cand_alleles = "".join(snv_cand_alleles)
         snv_cand_alleles = snv_cand_alleles.split("_")
@@ -163,7 +163,7 @@ elif cn == '1':
 
         elif snv_def_alleles[0] != snv_def_alleles[1]:
             samp_allele1 = del_adv_test(hap_dbs, snv_cand_alleles[0], snv_cand_alleles[1], snv_def_alleles[0], snv_def_alleles[1], supp_core_vars)
-            # print(samp_allele1)                                                                                                                         
+            
             gene_alleles = samp_allele1 + "/" + "*(full_gene_del)"
             print(gene_alleles)
 

@@ -213,11 +213,11 @@ elif cn == '0':
 elif cn == '1':
     del_confirm = del_test(sv_del)
         
-    if "or" in snv_def_alleles and del_confirm == None:
+    if "or" in snv_def_alleles and del_confirm == 'None':
        # print ("\n")
         print (snv_def_alleles + "\t" + "Possible CYP2D6 gene deletion (*5) present")
 
-    elif "or" not in snv_def_alleles and del_confirm == None:
+    elif "or" not in snv_def_alleles and del_confirm == 'None':
         snv_def_alleles = snv_def_alleles.split("/")
         snv_cand_alleles = "".join(snv_cand_alleles)
         snv_cand_alleles = snv_cand_alleles.split("_")
