@@ -610,6 +610,8 @@ var_ch1.join(var_ch2).set { var_ch_joined }
 process format_snvs {
 //   maxForks 10
 
+    publishDir "$output_folder/$gene_name/variants", pattern: "*_all_norm.vcf*", mode: 'copy', overwrite: 'true'
+
     input:
     set val(name), path("${name}_var_1"), path("${name}_var_2") from var_ch_joined
 
@@ -734,7 +736,7 @@ fin_files2.join(sv_ch3).set {fin_files}
 process call_stars {
 //   maxForks 10
 
-    publishDir "$output_folder/$gene_name", mode: 'copy', overwrite: 'true'
+    publishDir "$output_folder/$gene_name/alleles", mode: 'copy', overwrite: 'true'
 
     errorStrategy 'ignore'
     tag "${name}"
