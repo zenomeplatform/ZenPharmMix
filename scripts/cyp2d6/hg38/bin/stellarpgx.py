@@ -206,7 +206,6 @@ elif cn == '0':
         print(samp_dip)
 
     else:
-       # print ("\n")
         gene_alleles = "*5/*5" 
         print (gene_alleles)
         
@@ -214,7 +213,6 @@ elif cn == '1':
     del_confirm = del_test(sv_del)
         
     if "or" in snv_def_alleles and del_confirm == 'None':
-       # print ("\n")
         print (snv_def_alleles + "\t" + "Possible CYP2D6 gene deletion (*5) present")
 
     elif "or" not in snv_def_alleles and del_confirm == 'None':
@@ -223,14 +221,11 @@ elif cn == '1':
         snv_cand_alleles = snv_cand_alleles.split("_")
 
         if snv_def_alleles[0] == snv_def_alleles[1]:
-           # print ("\n")
             gene_alleles = snv_def_alleles[0] + "/" + "*5"
             print(gene_alleles)
             
         elif snv_def_alleles[0] != snv_def_alleles[1]:
             samp_allele1 = del_adv_test(hap_dbs, snv_cand_alleles[0], snv_cand_alleles[1], snv_def_alleles[0], snv_def_alleles[1], supp_core_vars)
-            # print(samp_allele1)
-            # print ("\n")
             gene_alleles = samp_allele1 + "/" + "*5"
             print(gene_alleles)
 
@@ -240,13 +235,23 @@ elif cn == '1':
         snv_cand_alleles = snv_cand_alleles.split("_")
 
         if snv_def_alleles[0] == snv_def_alleles[1]:
-           # print ("\n")
+
+            if del_confirm == "*5/*5":
+                del_confirm = "*5"
+            else:
+                del_confirm = "*5"
+
             gene_alleles = (del_confirm + "/" + snv_def_alleles[0])
             print(gene_alleles)
 
         elif snv_def_alleles[0] != snv_def_alleles[1]:
             samp_allele1 = del_adv_test(hap_dbs, snv_cand_alleles[0], snv_cand_alleles[1], snv_def_alleles[0], snv_def_alleles[1], supp_core_vars)
-           # print ("\n")
+
+            if del_confirm == "*5/*5":
+                del_confirm = "*5"
+            else:
+                del_confirm = "*5"
+
             gene_alleles = (del_confirm + "/" + samp_allele1)
             print(gene_alleles)
 
@@ -300,15 +305,11 @@ elif (int(cn) == 3 or int(cn) == 4) and snv_def_alleles != None:
 
         
         elif snv_def_alleles[0] != snv_def_alleles[1]:
-            #print("\n" + dup_test(sv_dup, hap_dbs, snv_def_alleles[0], snv_def_alleles[1], cn))
-            #print (snv_def_alleles)
-            #print ("\n")
             phased_dup = dup_test_cn_3_4(sv_dup, hap_dbs, snv_cand_alleles[0], snv_cand_alleles[1], snv_def_alleles[0], snv_def_alleles[1], cn, av_cov, in_list)
 
             
             phased_dup1 = phased_dup.split("/")
 
-            # print (hybrid_test_68(sv_dup, cn, av_cov, cn_in1_3pr, in_list))
 
             if '*4x2' in phased_dup1:
                 count1 = phased_dup1.count('*4x2')
@@ -443,7 +444,7 @@ elif (int(cn) == 3 or int(cn) == 4) and snv_def_alleles != None:
         elif snv_def_alleles[0] == snv_def_alleles[1]:
             
             rt_2 = int(cn) - 1
-           # print ("\n")
+
             phased_dup = (snv_def_alleles[0] + "/" + snv_def_alleles[1] + "x" + str(rt_2))
 
             phased_dup1 = phased_dup.split("/")
@@ -453,9 +454,6 @@ elif (int(cn) == 3 or int(cn) == 4) and snv_def_alleles != None:
                 a_ind1 = phased_dup1.index('*4x2')
                 a_ind2 = 1 - a_ind1
 
-            # for i in phased_dup1:
-            #     if i != '*4x2':
-            #         other_hap = i
 
                 if count1 == 1:
                     test_68 = hybrid_test_68(sv_dup, cn, av_cov, cn_in1_3pr, in_list)
@@ -493,7 +491,6 @@ elif (int(cn) == 3 or int(cn) == 4) and snv_def_alleles != None:
                 if count3 == 1:
                     test_36 = hybrid_test_36_mod(sv_dup, cn, av_cov, cn_ex9_3pr)
                     
-                   # print (test_36)
                     
                     if test_36 == 'norm_mt':
                         pass
@@ -501,7 +498,6 @@ elif (int(cn) == 3 or int(cn) == 4) and snv_def_alleles != None:
                     elif test_36 == 'hyb_36_10':
                         phased_dup = phased_dup.replace('*10x3', '*36+*10x2')
 
-                    # *10x2/*36+*10
                     
                     elif test_36 == 'hyb_36_36':
                         phased_dup = '*36+*10/*36+*10'               

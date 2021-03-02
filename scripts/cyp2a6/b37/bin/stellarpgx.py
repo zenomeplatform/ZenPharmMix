@@ -186,6 +186,9 @@ elif cn == '1':
         
             if del_confirm == "*4/*4":
                 del_confirm = "*4"
+            else:
+                del_confirm = "*4"
+
             gene_alleles = del_confirm + "/" + snv_def_alleles[0]
             print(gene_alleles)
 
@@ -194,6 +197,9 @@ elif cn == '1':
     
             if del_confirm == "*4/*4":
                 del_confirm = "*4"
+            else:
+                del_confirm = "*4"
+
             gene_alleles = del_confirm + "/" + samp_allele1
             print(gene_alleles)
 

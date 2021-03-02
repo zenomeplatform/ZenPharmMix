@@ -228,7 +228,7 @@ elif cn == '1':
 
         elif snv_def_alleles[0] != snv_def_alleles[1]:
             samp_allele1 = del_adv_test(hap_dbs, snv_cand_alleles[0], snv_cand_alleles[1], snv_def_alleles[0], snv_def_alleles[1], supp_core_vars)
-            # print(samp_allele1)                                                                                                                         
+            
             gene_alleles = samp_allele1 + "/" + "*5"
             print(gene_alleles)
 
@@ -241,6 +241,9 @@ elif cn == '1':
         
             if del_confirm == "*5/*5":
                 del_confirm = "*5"
+            else:
+                del_confirm = "*5"
+
             gene_alleles = del_confirm + "/" + snv_def_alleles[0]
             print(gene_alleles)
 
@@ -249,14 +252,14 @@ elif cn == '1':
     
             if del_confirm == "*5/*5":
                 del_confirm = "*5"
+            else:
+                del_confirm = "*5"
+
             gene_alleles = del_confirm + "/" + samp_allele1
             print(gene_alleles)
 
 elif (int(cn) == 3 or int(cn) == 4) and snv_def_alleles != None:
 
-    # in_list = dup_test_init(sv_dup, av_cov)
-    # print (snv_def_alleles)
-    # print (snv_cand_alleles)
     orig = snv_def_alleles
 
     if "or" in snv_def_alleles:

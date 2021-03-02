@@ -149,6 +149,9 @@ elif cn == '1':
         
             if del_confirm == "*36/*36":
                 del_confirm = "*36"
+            else:
+                del_confirm = "*36"
+
             gene_alleles = del_confirm + "/" + snv_def_alleles[0]
             print(gene_alleles)
 
@@ -157,6 +160,9 @@ elif cn == '1':
     
             if del_confirm == "*36/*36":
                 del_confirm = "*36"
+            else:
+                del_confirm = "*36"
+
             gene_alleles = del_confirm + "/" + samp_allele1
             print(gene_alleles)
 
