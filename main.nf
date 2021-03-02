@@ -610,13 +610,15 @@ var_ch1.join(var_ch2).set { var_ch_joined }
 process format_snvs {
 //   maxForks 10
 
-    publishDir "$output_folder/$gene_name/variants", pattern: "*_all_norm.vcf*", mode: 'copy', overwrite: 'true'
+    publishDir "$output_folder/$gene_name/variants", pattern: '*vcf.gz', mode: 'copy', overwrite: 'true'
+    publishDir "$output_folder/$gene_name/variants", pattern: '*vcf.gz.tbi', mode: 'copy', overwrite: 'true'    
 
     input:
     set val(name), path("${name}_var_1"), path("${name}_var_2") from var_ch_joined
 
     output:
     set val(name), path("${name}_var") into (var_norm1, var_norm2)
+    set val(name), file("${name}_all_norm.vcf.gz"), file("${name}_all_norm.vcf.gz.tbi") into var_norm3
 
     script:
 
@@ -626,6 +628,9 @@ process format_snvs {
         tabix ${name}_var/${name}_${region_b2}.vcf.gz
         bcftools norm -m - ${name}_var/${name}_${region_b2}.vcf.gz | bcftools view -e 'GT="1/0"' | bcftools view -e 'GT="0/0"' | bgzip -c > ${name}_var/${name}_all_norm.vcf.gz
         tabix ${name}_var/${name}_all_norm.vcf.gz
+	cp ${name}_var/${name}_all_norm.vcf.gz ./${name}_${gene_name}.vcf.gz
+	cp ${name}_var/${name}_all_norm.vcf.gz.tbi ./${name}_${gene_name}.vcf.gz.tbi
+
     """
 
 }
