@@ -1163,7 +1163,7 @@ def cand_snv_allele_calling(database, infile, infile_full, infile_full_gt, infil
 
             elif chkList(score) == "Equal":
 
-                elif soln_list1[0] == "139.v1_4.v1" and soln_list1[1] == "1.v1_4.v7" and soln_list1[2] == "4.v13_74.v1":
+                if soln_list1[0] == "139.v1_4.v1" and soln_list1[1] == "1.v1_4.v7" and soln_list1[2] == "4.v13_74.v1":
                     elem = "139.v1_4.v1"
                     res1 = [i for i in range(len(elem)) if elem.startswith("_", i)]
                     res2 = [i for i in range(len(elem)) if elem.startswith(".", i)]
