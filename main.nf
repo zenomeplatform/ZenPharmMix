@@ -418,9 +418,9 @@ process call_snvs1 {
             """
             graphtyper genotype ${ref_dir}/${ref_genome} --sam=${name}.${ext} --sams_index=<(echo ${name}.${sam_ind}) --region=${region_a1} --output=${name}_var_1 --prior_vcf=${res_dir}/common_plus_core_var.vcf.gz -a ${debug38} ${cram_options}
 
-            bcftools concat ${name}_var_1/chr7/075913370-075963369.vcf.gz ${name}_var_1/chr7/075963370-075989900.vcf.gz -Oz -o ${name}_var_1/chr7/075913370-075989900.vcf.gz
+            bcftools concat ${name}_var_1/chr7/075905155-075955154.vcf.gz ${name}_var_1/chr7/075955155-075996855.vcf.gz -Oz -o ${name}_var_1/chr7/075905155-075996855.vcf.gz
 
-            tabix ${name}_var_1/chr7/075913370-075989900.vcf.gz
+            tabix ${name}_var_1/chr7/075905155-075996855.vcf.gz
             """
 
 
@@ -505,9 +505,9 @@ process call_snvs2 {
             """
             graphtyper genotype ${ref_dir}/${ref_genome} --sam=${name}.${ext} --sams_index=<(echo ${name}.${sam_ind}) --region=${region_a1} --output=${name}_var_2 --prior_vcf=${res_dir}/common_plus_core_var.vcf.gz -a ${debug38} ${cram_options}
 
-            bcftools concat ${name}_var_2/chr7/075913370-075963369.vcf.gz ${name}_var_2/chr7/075963370-075989900.vcf.gz -Oz -o ${name}_var_2/chr7/075913370-075989900.vcf.gz
+            bcftools concat ${name}_var_2/chr7/075905155-075955154.vcf.gz ${name}_var_2/chr7/075955155-075996855.vcf.gz -Oz -o ${name}_var_2/chr7/075905155-075996855.vcf.gz
 
-            tabix ${name}_var_2/chr7/075913370-075989900.vcf.gz
+            tabix ${name}_var_2/chr7/075905155-075996855.vcf.gz
             """
 
     else
