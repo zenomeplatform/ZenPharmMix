@@ -334,7 +334,7 @@ elif (int(cn) == 3 or int(cn) == 4) and snv_def_alleles != None:
                         if int(cn_in1_3pr) < int(cn):
                             phased_dup = phased_dup.replace('*4x2', '*68+*4')
 
-                        elif int(cn_in1_3pr) == int(cn) and 'x' not in other_hap:
+                        elif int(cn_in1_3pr) == int(cn) and ('x' not in other_hap) and int(cn) == 4:
                             phased_dup = phased_dup.replace('*4x2', '*68+*4')
                             phased_dup = phased_dup.replace(other_hap, (other_hap + 'x2'))
 
