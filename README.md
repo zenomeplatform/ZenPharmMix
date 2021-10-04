@@ -21,9 +21,9 @@ The following are required to run the StellarPGx pipeline;
 
 1. Prerequisite software
     - [`Nextflow`](https://nf-co.re/usage/installation) (preferably v18.x or higher)
-    - [`Singularity`](https://sylabs.io/) (v2.3.x or higher) or [`Docker`](https://docs.docker.com)
+    - [`Singularity`](https://sylabs.io/) (v3.1.x or higher) or [`Docker`](https://docs.docker.com)
     
-Singularity is highly recommended especially for running the pipeline in an HPC environment running Linux OS. Docker desktop is recommended for MacOS users intending to run/test the pipeline on a local machine. If you're just using your Mac to connect to a Linux cluster environment, then you can just proceed with Singularity on the cluster as the default.
+Singularity (v3.1.x or higher) is highly recommended especially for running the pipeline in an HPC environment running Linux OS. Docker desktop is recommended for MacOS users intending to run/test the pipeline on a local machine. If you're just using your Mac to connect to a Linux cluster environment, then you can just proceed with Singularity on the cluster as the default.
 
 
 
