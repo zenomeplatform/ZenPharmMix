@@ -26,7 +26,6 @@ def get_all_vars_gt(infile_full_gt):
     all_vars_gt = ";".join(sorted(all_vars_gt))
     return all_vars_gt
 
-
 def cand_snv_allele_calling(database, infile, infile_full, infile_full_gt, infile_spec, cn):
     
 
