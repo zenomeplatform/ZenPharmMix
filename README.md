@@ -12,6 +12,9 @@ StellarPGx is built using [`Nextflow`](https://www.nextflow.io), a workflow mana
 
 Please endeavour to always use the latest version of `StellarPGx`
 
+At present, StellarPGx only supports `short-read high-coverage whole genome sequence data` as input. Enhancements to include support for `exome`, `ADME gene panel` and/or `long-read WGS` are ongoing.
+
+
 Maintainer: David Twesigomwe (twesigomwedavid@gmail.com)
 
 
