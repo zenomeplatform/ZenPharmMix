@@ -361,10 +361,10 @@ def hybrid_47_test1(cov_e9_3pr, cov_e7_e8):
 
 def hybrid_47_test2(cov_e9_3pr, cov_e7_e8, cov_ctrl):
 
-    if float(cov_e9_3pr/float(cov_ctrl) > 0.75:
+    if float(cov_e9_3pr)/float(cov_ctrl) > 0.75:
         return 'hom_47'
 
-    elif 0.25 < float(cov_e9_3pr/float(cov_ctrl) < 0.75:
+    elif 0.25 < float(cov_e9_3pr)/float(cov_ctrl) < 0.75:
         return 'het_47'
              
     else:
