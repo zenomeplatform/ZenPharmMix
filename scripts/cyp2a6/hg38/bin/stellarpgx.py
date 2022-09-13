@@ -99,11 +99,11 @@ cov_e1_e2 = get_total_CN(cov_file)[3]
 cov_e3_e9 = get_total_CN(cov_file)[4]
 cov_3p_utr = get_total_CN(cov_file)[5]
 cov_ctrl = get_total_CN(cov_file)[2]
-cov_ex1_ex4 = get_total_CN(cov_file)[6]
-cov_ex5_ex9 = get_total_CN(cov_file)[7]
-cov_ex3_ex4 = get_total_CN(cov_file)[8]
-cov_ex9_3pr = get_total_CN(cov_file)[9]
-cov_ex7_ex8 = get_total_CN(cov_file)[10]
+cov_e1_e4 = get_total_CN(cov_file)[6]
+cov_e5_e9 = get_total_CN(cov_file)[7]
+cov_e3_e4 = get_total_CN(cov_file)[8]
+cov_e9_3pr = get_total_CN(cov_file)[9]
+cov_e7_e8 = get_total_CN(cov_file)[10]
 
 
 gene_alleles = ""
