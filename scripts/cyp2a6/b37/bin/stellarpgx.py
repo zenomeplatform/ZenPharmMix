@@ -184,7 +184,7 @@ if cn == '2':
                 gene_alleles = snv_def_alleles[ind_other] + "/" + "*12"
                 print(gene_alleles)
 
-            elif test_12 == 'hyb_12_2' and snv_def_alleles == "*1/*1":
+            elif test_12_34 == 'hyb_12_2' and snv_def_alleles == "*1/*1":
                 gene_alleles = "*12/*12"
                 print(gene_alleles)
 
