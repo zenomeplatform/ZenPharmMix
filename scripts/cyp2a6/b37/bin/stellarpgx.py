@@ -245,7 +245,7 @@ elif cn == '1':
             gene_alleles = snv_def_alleles[0] + "/" + "*4"
             print(gene_alleles)
 
-	elif snv_def_alleles[0] == snv_def_alleles[1] and test_47_1 == 'hyb_47':
+        elif snv_def_alleles[0] == snv_def_alleles[1] and test_47_1 == 'hyb_47':
             gene_alleles = snv_def_alleles[0] + "/" + "*47"
             print(gene_alleles)         
             
