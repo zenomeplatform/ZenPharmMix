@@ -18,7 +18,12 @@ def get_total_CN(cov_file):
     av_e1_e2 = float(all_reg[3][3])/(float(all_reg[3][2]) - float(all_reg[3][1]))
     av_e3_e9 = float(all_reg[4][3])/(float(all_reg[4][2]) - float(all_reg[4][1]))
     av_3p_utr = float(all_reg[5][3])/(float(all_reg[5][2]) - float(all_reg[5][1]))
-
+    av_ex1_ex4 = float(all_reg[6][3])/(float(all_reg[6][2]) - float(all_reg[6][1]))
+    av_ex5_ex9 = float(all_reg[7][3])/(float(all_reg[7][2]) - float(all_reg[7][1]))
+    av_ex3_ex4 = float(all_reg[8][3])/(float(all_reg[8][2]) - float(all_reg[8][1]))
+    av_ex9_3pr = float(all_reg[9][3])/(float(all_reg[9][2]) - float(all_reg[9][1]))
+    av_ex7_ex8 = float(all_reg[10][3])/(float(all_reg[10][2]) - float(all_reg[10][1]))
+    
     av_ctrl_cov = (av_vdr_cov + av_egfr_cov)/2
 
     comp_av = av_2a6_cov/av_ctrl_cov
@@ -26,7 +31,7 @@ def get_total_CN(cov_file):
     total_cn = round(temp_cn)
 
 
-    return [str(int(total_cn)), round(av_2a6_cov), round(av_ctrl_cov), str(av_e1_e2), str(av_e3_e9), str(av_3p_utr)];
+    return [str(int(total_cn)), round(av_2a6_cov), round(av_ctrl_cov), str(av_e1_e2), str(av_e3_e9), str(av_3p_utr), str(av_ex1_ex4), str(av_ex5_ex9), str(av_ex3_ex4), str(av_ex9_3pr), str(av_ex7_ex8)];
 
 
 def del_test(sv_del):
@@ -315,6 +320,56 @@ def hybrid_12_test1(cov_e1_e2, cov_e3_e9):
     else:
         return 'norm_var'
 
+
+def hybrid_12_34(cov_e1_e2, cov_e3_e9, cov_e1_e4, cov_e5_e9, cov_e3_e4):
+
+    if 0.65 < float(cov_e1_e4)/float(cov_e5_e9) < 1.25:
+        return 'norm_var'
+
+    elif 0.65 < float(cov_e1_e2)/float(cov_e3_e9) < 1.25:
+        return 'norm_var'
+    
+    elif 0.15 < float(cov_e1_e4)/float(cov_e5_e9) < 0.65 and (0.65 < float(cov_e1_e2)/float(cov_e3_e4) < 1.25):
+        return 'hyb_34'
+
+    elif 0.15 < float(cov_e1_e4)/float(cov_e5_e9) < 0.65 and (0.15 < float(cov_e1_e2)/float(cov_e3_e4) < 0.65):
+        return 'hyb_12'
+        
+    elif float(cov_e1_e4)/float(cov_e5_e9) < 0.15:
+	return 'hyb_34_2'    
+    
+    elif 0.15 < float(cov_e1_e2)/float(cov_e3_e9) < 0.65:
+        return 'hyb_12'
+
+    elif float(cov_e1_e2)/float(cov_e3_e9) < 0.15:
+        return 'hyb_12_2'
+
+    else:
+        return 'norm_var'
+
+
+def hybrid_47_test1(cov_e9_3pr, cov_e7_e8):
+    
+    if 0.25 < float(cov_e7_e8)/float(cov_e9_3pr) < 0.65:
+        return 'hyb_47'
+
+    else:
+        return 'no_hyb_47'
+
+
+# For *4/*4
+
+def hybrid_47_test2(cov_e9_3pr, cov_e7_e8, cov_ctrl):
+
+    if float(cov_e9_3pr/float(cov_ctrl) > 0.75:
+        return 'hom_47'
+
+    elif 0.25 < float(cov_e9_3pr/float(cov_ctrl) < 0.75:
+        return 'het_47'
+             
+    else:
+        return 'no_hyb_47'
+    
 
 def star_1b_test(cov_3p_utr, cov_ctrl):
 

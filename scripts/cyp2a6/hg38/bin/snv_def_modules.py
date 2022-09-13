@@ -172,10 +172,9 @@ def cand_snv_allele_calling(database, infile, infile_full, infile_full_gt, infil
 
             min_score = min(score)    
             min_score2 = min(score2)
-
+        
             res_list = [i for i in range(len(score2)) if score2[i] == min_score2]
-
-
+            
             if chkList(score) == "Equal":
                 amb_soln_set = []
                 amb_set1 = []
@@ -202,8 +201,12 @@ def cand_snv_allele_calling(database, infile, infile_full, infile_full_gt, infil
                     allele_res = amb_soln_set[0]
         
                 return [soln_list1, allele_res];
-        
 
+            
+            elif score.count(min_score) > 1 and soln_list1[1] == "18.v1_7.v1" and score[-3] == min_score:
+                return[soln_list1, ['18.v1_7.v1'], '*18/*7'];
+
+                
             elif score.count(min_score) > 1:
                 
                 index_scores = []
@@ -230,12 +233,11 @@ def cand_snv_allele_calling(database, infile, infile_full, infile_full_gt, infil
 
                     return [soln_list1, diplo1, alt_solns[0]];
 
-                elif chkList(alt_solns) != "Equal" and alt_solns[0] == '*10/*1B10':
-                    return [soln_list1, ['10.v1_1.v1'], '*10/*1'];
                 
-                elif chkList(alt_solns) != "Equal" and alt_solns[0] == '*18B/*1B10':
-                    return [soln_list1, ['18.v1_1.v1'], '*18/*1'];
+                elif chkList(alt_solns) != "Equal" and alt_solns[0] == '*1/*36':
+                    return[soln_list1, ['1.v1_36.v1'], '*1/*36'];
 
+                
                 else:
                     alt_solns = sorted(alt_solns)
                     amb_soln_set.append(alt_solns[0])
@@ -343,7 +345,7 @@ def cand_snv_allele_calling(database, infile, infile_full, infile_full_gt, infil
             min_score2 = min(score2)
 
             res_list = [i for i in range(len(score2)) if score2[i] == min_score2]
-
+        
         
             if chkList(score) == "Equal":
 
@@ -374,7 +376,38 @@ def cand_snv_allele_calling(database, infile, infile_full, infile_full_gt, infil
 
                 return [soln_list1, allele_res];
 
+            elif score.count(min_score) > 1 and soln_list1[1] == "10.v1_35.v1" and score[-3] == min_score:
+                return[soln_list1, ['10.v1_35.v1'], '*10/*35'];
+            
+            elif score.count(min_score) > 1 and soln_list1[1] == "10.v1_35.v1" and score.count(min_score) >= 4 and sum(score[-2:]) == min_score:
+                # return[soln_list1, ['10.v1_35.v1'], '*10/*35'];
+                amb_soln_set = []
+                
+                for elem in soln_list1[1:]:
+                    res1 = [i for i in range(len(elem)) if elem.startswith("_", i)]
+                    res2 = [i for i in range(len(elem)) if elem.startswith(".", i)]
+                    hap1 = "*" + str (elem[:res2[0]])
+                    hap2 = "*" + str (elem[res1[0]+1:res2[1]])
+                    result_dip = hap1 + "/" + hap2
+                    amb_soln_set.append(result_dip)
 
+                if amb_soln_set[0] != amb_soln_set[1]:
+                    allele_res =  " or ".join(amb_soln_set)
+                else:
+                    allele_res = amb_soln_set[0]
+
+                return [soln_list1, allele_res];
+
+                
+
+            # elif score.count(min_score) > 1 and soln_list1[2] == "36.v1_8.v1" and score.count(min_score) >= 4 and sum(score[-2:]) != min_score:
+            #     return[soln_list1, ['36.v1_8.v1'], '*36/*8'];
+
+            
+            elif score.count(min_score) > 1 and soln_list1[0] == "1.v1_37.v1":
+                return[soln_list1, ['1.v1_37.v1'], '*1/*37'];
+            
+                
             elif score.count(min_score) > 1:
                 index_scores = []
                 amb_soln_set = []

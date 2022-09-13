@@ -118,41 +118,63 @@ if cn == '2':
     else:
         snv_def_alleles = snv_def_alleles.split("/")
 
-        if snv_def_alleles[0] == '*1' or snv_def_alleles[1] == '*1':
-            ind_star2 = snv_def_alleles.index('*1')
+        if snv_def_alleles[0] == '*46' or snv_def_alleles[1] == '*46':
+            ind_star2 = snv_def_alleles.index('*46')
             ind_other = 1 - ind_star2
-
-            test_12 = hybrid_12_test1(cov_e1_e2, cov_e3_e9)
 
             test_1b = star_1b_test(cov_3p_utr, cov_ctrl)
 
-            if test_12 == 'norm_var':
+                
+            if test_1b == 'no_1B' and (snv_def_alleles.count('*46') == 2):
+                gene_alleles = "*1" + "/" + "*1"
+                print(gene_alleles)
+
+            elif test_1b == 'het_1B' and (snv_def_alleles[ind_other] not in conv_3p_utr):
+                gene_alleles =  snv_def_alleles[ind_other] + "/" + "*46"
+                print(gene_alleles)
+                    
+            elif test_1b =='hom_1B' and (snv_def_alleles[ind_other] in conv_3p_utr):
+                gene_alleles = snv_def_alleles[ind_other] + "/" + "*46"
+                print(gene_alleles)
+
+            
+        elif snv_def_alleles[0] == '*1' or snv_def_alleles[1] == '*1':
+            ind_star2 = snv_def_alleles.index('*1')
+            ind_other = 1 - ind_star2
+
+            # test_12 = hybrid_12_test1(cov_e1_e2, cov_e3_e9)
+
+            test_12_34 = hybrid_12_34(cov_e1_e2, cov_e3_e9, cov_e1_e4, cov_e5_e9, cov_e3_e4)
+            
+            test_1b = star_1b_test(cov_3p_utr, cov_ctrl)
+
+            if test_12_34 == 'norm_var':
                 
                 if test_1b == 'no_1B':
                     gene_alleles = "/".join(snv_def_alleles)
                     print(gene_alleles)
 
                 elif test_1b == 'het_1B' and (snv_def_alleles[ind_other] not in conv_3p_utr):
-                    gene_alleles = "*1B" + "/" + snv_def_alleles[ind_other]
+                    gene_alleles =  snv_def_alleles[ind_other] + "/" + "*46"
                     print(gene_alleles)
 
                 elif test_1b == 'hom_1B' and (snv_def_alleles.count('*1') == 2):
-                    gene_alleles = "*1B/*1B"
+                    gene_alleles = "*46/*46"
                     print(gene_alleles)
 
                 elif test_1b =='hom_1B' and (snv_def_alleles[ind_other] in conv_3p_utr):
-                    gene_alleles = "*1B" + "/" + snv_def_alleles[ind_other]
+                    gene_alleles = snv_def_alleles[ind_other] + "/" + "*46"
                     print(gene_alleles)
 
                 elif test_1b =='hom_1B':
-                    gene_alleles = "*1B" + "/" + snv_def_alleles[ind_other]
+                    gene_alleles = snv_def_alleles[ind_other] + "/" + "*46"
                     print(gene_alleles)
 
                 else:
                     gene_alleles = "/".join(snv_def_alleles)
                     print(gene_alleles)
 
-            elif test_12 == 'hyb_12':
+            elif test_12_34 == 'hyb_12':
                 gene_alleles = snv_def_alleles[ind_other] + "/" + "*12"
                 print(gene_alleles)
 
@@ -160,32 +182,52 @@ if cn == '2':
                 gene_alleles = "*12/*12"
                 print(gene_alleles)
 
+            elif test_12_34 == 'hyb_34':
+                gene_alleles = snv_def_alleles[ind_other] + "/" + "*34"
+                print(gene_alleles)
+
+            elif test_12_34 == 'hyb_34_2' and snv_def_alleles == "*1/*1":
+                gene_alleles = "*34/*34"
+                print(gene_alleles)
+
+
         else:
             gene_alleles = "/".join(snv_def_alleles)
             print(gene_alleles)
 
 
 
-
-
 elif cn == '0':
     del_confirm = del_test(sv_del)
-    if del_confirm == '*4/*4':
-        gene_alleles = del_confirm
-        print (gene_alleles)
-        
-    elif del_confirm == '*4':
-        gene_alleles = del_confirm + "/" + "*other"
-        print(gene_alleles)
+    test_47_1 =	hybrid_47_test1(cov_e9_3pr, cov_e7_e8)
+    test_47_2 = hybrid_47_test2(cov_e9_3pr, cov_e7_e8, cov_ctrl)
+
+    if del_confirm == '*4/*4' and test_47_2 == no_hyb_47:
+        gene_alleles = '*4/*4'
+
+    elif del_confirm == '*4/*4' and test_47_2 == het_47:
+        gene_alleles = '*4/*47'
+
+    elif del_confirm == '*4/*4' and test_47_2 == hom_47:
+        gene_alleles = '*47/*47'
+
+
+    elif del_confirm == '*4' and test_47_1 == no_hyb_47:
+        gene_alleles = '*4' + "/" + "*other"
+
+    elif del_confirm == '*4' and test_47_1 == hyb_47:
+        gene_alleles = '*47' + "/" + "*other"
 
     else:
         gene_alleles = "*4/*4"
-        print(gene_alleles)
+
+    print(gene_alleles)
 
 
 elif cn == '1':
     del_confirm = del_test(sv_del)
- 
+    test_47_1 = hybrid_47_test1(cov_e9_3pr, cov_e7_e8)
+    
     if "or" in snv_def_alleles and del_confirm == 'None':
         print (snv_def_alleles + "\t" + "Possible CYP2A6 gene deletion (*4) present")
 
@@ -194,14 +236,24 @@ elif cn == '1':
         snv_cand_alleles = "".join(snv_cand_alleles)
         snv_cand_alleles = snv_cand_alleles.split("_")
 
-        if snv_def_alleles[0] == snv_def_alleles[1]:
+        if snv_def_alleles[0] == snv_def_alleles[1] and test_47_1 == no_hyb_47:
             gene_alleles = snv_def_alleles[0] + "/" + "*4"
             print(gene_alleles)
 
+	elif snv_def_alleles[0] == snv_def_alleles[1] and test_47_1 == hyb_47:
+            gene_alleles = snv_def_alleles[0] + "/" + "*47"
+            print(gene_alleles)         
+            
         elif snv_def_alleles[0] != snv_def_alleles[1]:
             samp_allele1 = del_adv_test(hap_dbs, snv_cand_alleles[0], snv_cand_alleles[1], snv_def_alleles[0], snv_def_alleles[1], supp_core_vars)
             
             gene_alleles = samp_allele1 + "/" + "*4"
+
+            if test_47_1 == no_hyb_47:
+                pass
+            elif test_47_1 == hyb_47:
+                gene_alleles = samp_allele1 + "/" + "*47"
+            
             print(gene_alleles)
 
     else:
@@ -210,34 +262,33 @@ elif cn == '1':
         snv_cand_alleles = snv_cand_alleles.split("_")
 
         test_1b = star_1b_test(cov_3p_utr, cov_ctrl)
-
-        if snv_def_alleles[0] == snv_def_alleles[1]:
+        test_47_1 = hybrid_47_test1(cov_e9_3pr, cov_e7_e8)
         
-            if del_confirm == "*4/*4":
-                del_confirm = "*4"
-            else:
-                del_confirm = "*4"
+        if snv_def_alleles[0] == snv_def_alleles[1]:
+            del_confirm = "*4"
 
-            if snv_def_alleles[0] == '*1':
-                if test_1b == 'hom_1B':
-                    snv_def_alleles[0] = '*1B'
+            if snv_def_alleles[0] == '*1' and test_1b == 'hom_1B':
+                snv_def_alleles[0] = '*46'
+                gene_alleles = del_confirm + "/" + snv_def_alleles[0]
+                print(gene_alleles)
+             
+            elif snv_def_alleles[0] in conv_3pr_utr and test_47_1 == no_hyb_47:
+                gene_alleles = del_confirm + "/" + snv_def_alleles[0]
+                print(gene_alleles)
 
-                else:
-                    pass
+            elif snv_def_alleles[0] in conv_3pr_utr and test_47_1 == hyb_47:
+                gene_alleles = snv_def_alleles[0] + "/" + '*47'
+                print(gene_alleles)
                 
             else:
-                pass
+                gene_alleles = del_confirm + "/" + snv_def_alleles[0]
+                print(gene_alleles)
 
-            gene_alleles = del_confirm + "/" + snv_def_alleles[0]
-            print(gene_alleles)
 
         elif snv_def_alleles[0] != snv_def_alleles[1]:
             samp_allele1 = del_adv_test(hap_dbs, snv_cand_alleles[0], snv_cand_alleles[1], snv_def_alleles[0], snv_def_alleles[1], supp_core_vars)
     
-            if del_confirm == "*4/*4":
-                del_confirm = "*4"
-            else:
-                del_confirm = "*4"
+            del_confirm == "*4"
 
             gene_alleles = del_confirm + "/" + samp_allele1
             print(gene_alleles)

@@ -4,8 +4,6 @@ import os
 import sys
 
 
-
-
 def get_core_variants(infile, cn):
     core_vars = []
     for line in open(infile, "r"):
@@ -38,7 +36,7 @@ def cand_snv_allele_calling(database, infile, infile_full, infile_full_gt, infil
         all_variants.append(line)
 
     if os.stat(infile).st_size == 0:
-        cand_res = ['18.v2_18.v2']
+        cand_res = ['18.v1_18.v1']
         allele_res = "*18/*18"
         return ["".join(cand_res), "".join(cand_res), allele_res];
         sys.exit()
@@ -174,13 +172,15 @@ def cand_snv_allele_calling(database, infile, infile_full, infile_full_gt, infil
             min_score = min(score)    
             min_score2 = min(score2)
 
+            
             res_list = [i for i in range(len(score2)) if score2[i] == min_score2]
 
-
+            
             if chkList(score) == "Equal":
                 amb_soln_set = []
                 amb_set1 = []
 
+                
                 if len(res_list) > 3:
                     soln_list_1 = soln_list1
 
@@ -203,10 +203,17 @@ def cand_snv_allele_calling(database, infile, infile_full, infile_full_gt, infil
                     allele_res = amb_soln_set[0]
         
                 return [soln_list1, allele_res];
-        
 
+
+            elif score.count(min_score) > 1 and soln_list1[1] == "35.v1_7.v1":
+                return[soln_list1, ['35.v1_7.v1'], '*35/*7'];
+
+            elif score.count(min_score) > 1 and soln_list1[1] == "18.v1_7.v1":
+                return[soln_list1, ['18.v1_7.v1'], '*18/*7'];
+            
+            
             elif score.count(min_score) > 1:
-                
+        
                 index_scores = []
                 amb_soln_set = []
 
@@ -228,11 +235,9 @@ def cand_snv_allele_calling(database, infile, infile_full, infile_full_gt, infil
                             diplo1 = i
                     return[soln_list1, diplo1, alt_solns[0]];
 
-                elif chkList(alt_solns) != "Equal" and alt_solns[0] == '*10/*1B10':
-                    return[soln_list1, ['10.v1_1.v1'], '*10/*1'];
+                elif chkList(alt_solns) != "Equal" and alt_solns[0] == '*1/*36':
+                    return[soln_list1, ['1.v1_36.v1'], '*1/*36'];
 
-                elif chkList(alt_solns) != "Equal" and alt_solns[0] == '*18B/*1B10':
-                    return[soln_list1, ['18.v1_1.v1'], '*18/*1'];
                     
                 else:
                     alt_solns = sorted(alt_solns)
@@ -341,6 +346,7 @@ def cand_snv_allele_calling(database, infile, infile_full, infile_full_gt, infil
             min_score = min(score)
             min_score2 = min(score2)
 
+    
             res_list = [i for i in range(len(score2)) if score2[i] == min_score2]
 
         
@@ -373,7 +379,9 @@ def cand_snv_allele_calling(database, infile, infile_full, infile_full_gt, infil
 
                 return [soln_list1, allele_res];
 
-
+            elif score.count(min_score) > 1 and soln_list1[0] == "1.v1_37.v1":
+                return[soln_list1, ['1.v1_37.v1'], '*1/*37'];
+                
             elif score.count(min_score) > 1:
                 index_scores = []
                 amb_soln_set = []

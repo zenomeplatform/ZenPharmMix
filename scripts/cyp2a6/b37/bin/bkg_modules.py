@@ -50,7 +50,7 @@ def get_backgroud_alleles(database, core_vars):
     diplo_vars2 = []
 
     if len(scores) == 0:
-        diplo1 = '18.v2_18.v2'
+        diplo1 = '18.v1_18.v1'
         allele_res = '*18/*18'
 
     else:
