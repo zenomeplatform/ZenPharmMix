@@ -115,7 +115,7 @@ conv_3p_utr = ['*5','*7','*8','*10','*19','*24','*28','*35','*36','*37']
 if snv_def_alleles != '*18/*18' and cn != '0':
     in_list = dup_test_init(sv_dup, av_cov)
 
-
+    
 if cn == '2':
 
     if 'or' in snv_def_alleles:        
@@ -277,11 +277,11 @@ elif cn == '1':
                 gene_alleles = del_confirm + "/" + snv_def_alleles[0]
                 print(gene_alleles)
              
-            elif snv_def_alleles[0] in conv_3pr_utr and test_47_1 == 'no_hyb_47':
+            elif snv_def_alleles[0] in conv_3p_utr and test_47_1 == 'no_hyb_47':
                 gene_alleles = del_confirm + "/" + snv_def_alleles[0]
                 print(gene_alleles)
 
-            elif snv_def_alleles[0] in conv_3pr_utr and test_47_1 == 'hyb_47':
+            elif snv_def_alleles[0] in conv_3p_utr and test_47_1 == 'hyb_47':
                 gene_alleles = snv_def_alleles[0] + "/" + '*47'
                 print(gene_alleles)
                 
