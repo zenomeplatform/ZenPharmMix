@@ -336,7 +336,7 @@ def hybrid_12_34(cov_e1_e2, cov_e3_e9, cov_e1_e4, cov_e5_e9, cov_e3_e4):
         return 'hyb_12'
         
     elif float(cov_e1_e4)/float(cov_e5_e9) < 0.15:
-	return 'hyb_34_2'    
+        return 'hyb_34_2'    
     
     elif 0.15 < float(cov_e1_e2)/float(cov_e3_e9) < 0.65:
         return 'hyb_12'
