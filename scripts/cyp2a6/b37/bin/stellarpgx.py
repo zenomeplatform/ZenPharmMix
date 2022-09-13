@@ -208,20 +208,19 @@ elif cn == '0':
     test_47_1 =	hybrid_47_test1(cov_e9_3pr, cov_e7_e8)
     test_47_2 = hybrid_47_test2(cov_e9_3pr, cov_e7_e8, cov_ctrl)
 
-    if del_confirm == '*4/*4' and test_47_2 == no_hyb_47:
+    if del_confirm == '*4/*4' and test_47_2 == 'no_hyb_47':
         gene_alleles = '*4/*4'
 
-    elif del_confirm == '*4/*4' and test_47_2 == het_47:
+    elif del_confirm == '*4/*4' and test_47_2 == 'het_47':
         gene_alleles = '*4/*47'
 
-    elif del_confirm == '*4/*4' and test_47_2 == hom_47:
+    elif del_confirm == '*4/*4' and test_47_2 == 'hom_47':
         gene_alleles = '*47/*47'
 
-
-    elif del_confirm == '*4' and test_47_1 == no_hyb_47:
+    elif del_confirm == '*4' and test_47_1 == 'no_hyb_47':
         gene_alleles = '*4' + "/" + "*other"
 
-    elif del_confirm == '*4' and test_47_1 == hyb_47:
+    elif del_confirm == '*4' and test_47_1 == 'hyb_47':
         gene_alleles = '*47' + "/" + "*other"
 
     else:
@@ -242,11 +241,11 @@ elif cn == '1':
         snv_cand_alleles = "".join(snv_cand_alleles)
         snv_cand_alleles = snv_cand_alleles.split("_")
 
-        if snv_def_alleles[0] == snv_def_alleles[1] and test_47_1 == no_hyb_47:
+        if snv_def_alleles[0] == snv_def_alleles[1] and test_47_1 == 'no_hyb_47':
             gene_alleles = snv_def_alleles[0] + "/" + "*4"
             print(gene_alleles)
 
-	elif snv_def_alleles[0] == snv_def_alleles[1] and test_47_1 == hyb_47:
+	elif snv_def_alleles[0] == snv_def_alleles[1] and test_47_1 == 'hyb_47':
             gene_alleles = snv_def_alleles[0] + "/" + "*47"
             print(gene_alleles)         
             
@@ -255,9 +254,9 @@ elif cn == '1':
             
             gene_alleles = samp_allele1 + "/" + "*4"
 
-            if test_47_1 == no_hyb_47:
+            if test_47_1 == 'no_hyb_47':
                 pass
-            elif test_47_1 == hyb_47:
+            elif test_47_1 == 'hyb_47':
                 gene_alleles = samp_allele1 + "/" + "*47"
             
             print(gene_alleles)
@@ -278,11 +277,11 @@ elif cn == '1':
                 gene_alleles = del_confirm + "/" + snv_def_alleles[0]
                 print(gene_alleles)
              
-            elif snv_def_alleles[0] in conv_3pr_utr and test_47_1 == no_hyb_47:
+            elif snv_def_alleles[0] in conv_3pr_utr and test_47_1 == 'no_hyb_47':
                 gene_alleles = del_confirm + "/" + snv_def_alleles[0]
                 print(gene_alleles)
 
-            elif snv_def_alleles[0] in conv_3pr_utr and test_47_1 == hyb_47:
+            elif snv_def_alleles[0] in conv_3pr_utr and test_47_1 == 'hyb_47':
                 gene_alleles = snv_def_alleles[0] + "/" + '*47'
                 print(gene_alleles)
                 
