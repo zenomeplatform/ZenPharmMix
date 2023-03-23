@@ -8,7 +8,7 @@ params {
 
 
    // BAM/CRAM file(s) and respective indexes 
-   in_bam = "$PWD/tests/samples/hg38/HG03130*{bam,bai}" 
+   in_bam = "$PWD/tests/samples/hg38/SIM001*{bam,bai}" 
 
 
    // Output directoy (Default is $PWD/results)
