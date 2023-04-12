@@ -1,8 +1,9 @@
 # Zenomix
 Zenome Pharmacogenomics caller for mixed NGS data (WES + LP WGS), forked from StellarPGx
-
+________________________________________________________________________________________
 
 CYP450 genes supported: CYP2D6, CYP2B6, CYP2C19, CYP2C9, CYP3A4, CYP3A5, CYP1A2
+
 Non-CYP450 genes supported: CYPOR (POR)
 
 Zenomix is based on StellarPGx (please refer to the excellent documentation [here](https://github.com/SBIMB/StellarPGx)). Main script is built using PHP and utilize Docker technology.
