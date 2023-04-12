@@ -24,6 +24,11 @@ def get_total_CN(cov_file):
     av_egfr_cov = float(all_reg[9][3])/(float(all_reg[9][2]) - float(all_reg[9][1]))
     av_2d7_ex2_in8 = float(all_reg[10][3])/(float(all_reg[10][2]) - float(all_reg[10][1]))
     av_2d7_5pr_in1 = float(all_reg[11][3])/(float(all_reg[11][2]) - float(all_reg[11][1]))
+    av_2d7_hyb_68 = float(all_reg[12][3])/(float(all_reg[12][2]) - float(all_reg[12][1]))
+    av_2d7_hyb_13 = float(all_reg[16][3])/(float(all_reg[16][2]) - float(all_reg[16][1]))
+    av_2d7_hyb_exon_9 = float(all_reg[13][3])/(float(all_reg[13][2]) - float(all_reg[13][1]))
+    av_2d7_hyb_intron_7 = float(all_reg[14][3])/(float(all_reg[14][2]) - float(all_reg[14][1]))
+    av_2d7_hyb_exon_8 = float(all_reg[15][3])/(float(all_reg[15][2]) - float(all_reg[15][1]))
 
     av_ctrl_cov = (av_vdr_cov + av_egfr_cov)/2
     # av_ctrl_cov = av_vdr_cov
@@ -32,11 +37,43 @@ def get_total_CN(cov_file):
     temp_cn = 2 * comp_av + 0.15
     total_cn = round(temp_cn)
 
+    if total_cn > 4:
+        total_cn = 4
+
     in1_3pr = round(2 * av_in1_3pr/av_ctrl_cov) 
     ex9_3pr = (2 * av_ex9_3pr/av_ctrl_cov)
 
+    av_hyb_68 = av_2d6_cov+(av_2d7_hyb_68/2.8)
+    comp_hyb_68 = av_hyb_68/av_ctrl_cov
+    hyb_cn_68 = 2 * comp_hyb_68 + 0.15
+    cn_hyb_68 = round(hyb_cn_68)
+    
+    av_hyb_36 = av_2d6_cov+(av_2d7_hyb_exon_9/4)
+    comp_hyb_36 = av_hyb_36/av_ctrl_cov
+    hyb_cn_36 = 2 * comp_hyb_36 + 0.15
+    cn_hyb_36 = round(hyb_cn_36)
+    
+    av_hyb_83 = av_2d6_cov+(av_2d7_hyb_exon_9/4)
+    comp_hyb_83 = av_hyb_83/av_ctrl_cov
+    hyb_cn_83 = 2 * comp_hyb_83 + 0.15
+    cn_hyb_83 = round(hyb_cn_83)
 
-    return [str(total_cn), round(av_2d6_cov), str(int(in1_3pr)), round(av_ctrl_cov), str(ex9_3pr), round(av_in1_3pr), str(av_in4_3pr), str(av_5pr_in4), str(av_2d7_ex9), str(av_2d7_in4_in8), str(av_2d7_ex2_in8), str(av_2d7_5pr_in1)];
+    av_hyb_13 = av_2d6_cov+(av_2d7_hyb_13/3)
+    comp_hyb_13 = av_hyb_13/av_ctrl_cov
+    hyb_cn_13 = 2 * comp_hyb_13 + 0.15
+    cn_hyb_13 = round(hyb_cn_13)
+    
+    av_hyb_61 = av_2d6_cov+(av_2d7_hyb_intron_7/3)
+    comp_hyb_61 = av_hyb_61/av_ctrl_cov
+    hyb_cn_61 = 2 * comp_hyb_61 + 0.15
+    cn_hyb_61 = round(hyb_cn_61)
+
+    av_hyb_63 = av_2d6_cov+(av_2d7_hyb_exon_8/3)
+    comp_hyb_63 = av_hyb_63/av_ctrl_cov
+    hyb_cn_63 = 2 * comp_hyb_63 + 0.15
+    cn_hyb_63 = round(hyb_cn_63)
+
+    return [str(int(total_cn)), round(av_2d6_cov), str(int(in1_3pr)), round(av_ctrl_cov), str(ex9_3pr), float(av_in1_3pr), str(av_in4_3pr), str(av_5pr_in4), str(av_2d7_ex9), str(av_2d7_in4_in8), str(av_2d7_ex2_in8), str(av_2d7_5pr_in1), float(av_2d7_hyb_68), int(cn_hyb_68), int(cn_hyb_36), int(cn_hyb_61), int(cn_hyb_63), int(cn_hyb_13), int(cn_hyb_83)];
 
 
 samp_gt = ""
@@ -359,37 +396,23 @@ def dup_test_cn_n(sv_dup, hap_dbs, cand_allele1, cand_allele2, test_allele1, tes
     return res_dip
 
 
-def hybrid_test_68(sv_dup, c_num, av_cov, cn_in1_3pr1, in_list):
+def hybrid_test_68(cn, av_cov, in1_3pr_float, cov_2d7_hyb, cn_hyb_68):
     
-    test_list1 = []
-    test_list2 = []
-    test_list3 = []
+    rt = float(cov_2d7_hyb)/float(in1_3pr_float)
 
-
-    for i in in_list:
-        test_list1.append(i[0])
-        test_list2.append(abs(float(i[-2])))
-        test_list3.append(i[-1])
-
-    index1 = test_list1.index('42526694~G>A')
-    index2 = test_list1.index('42524947~C>T')
-    
-    val_68 = test_list3[index1]
-    val_4 = test_list3[index2]
-    
-    rt = val_68/val_4
-
-    
-    if rt <= 1.4:
-        return 'norm_dup'
-
-    elif rt > 1.4:
+    if int(cn) == 3 and int(cn_hyb_68) == 4 and rt >= 0.75:
         return 'hyb_68'
-
-       
+    elif int(cn) == 1 and rt >= 1:
+        return 'hyb_68'
+    elif int(cn) == 2 and rt >= 1:
+        return 'hyb_68'
+    elif int(cn) == 3 and rt >= 1:
+        return 'hyb_68'
+    elif int(cn) == 4 and rt >= 0.75:
+        return 'hyb_68'
+    
     else:
         return 'norm_dup'
-
 
 def hyb_test_5_68_4(sv_del, in1_3pr1_float, av_cov):
     test_del = []
@@ -608,4 +631,3 @@ def hybrid_test_83(sv_dup, cn, av_cov, cn_ex9_3pr):
 
     else:
         return 'norm_star39'
-
