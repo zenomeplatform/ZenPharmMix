@@ -1,10 +1,10 @@
 <?php
-//main.nf на php с доработками
+//Original main.nf file without nextflow and with additional steps.
 $ref_file = $argv["1"];
 $bam_path = $argv["2"];
 $bam_name = $argv["3"];
 $report_path = $argv["4"];
-$work_dir = "/analyze/soft/tools/StellarPGx/MIX";
+$work_dir = "/analyze/soft/tools/StellarPGx/MIX"; //Script work directory, hardcoded due to incorrect detection by standard functions in images.
 $params_build = 'hg19';
 $d_base = "{$work_dir}/database";
 $res_base = "{$work_dir}/resources";
@@ -17,6 +17,7 @@ else $debug37 = '--minimum_extract_score_over_homref=0 ';
 
 $genes_need = array ("1" => "cyp2d6", "cyp2c19", "cyp2c9", "cyp2b6", "cyp1a2", "cyp3a4", "cyp3a5", "cypor");
 
+//Creating tmp directory. You can choose any.
 exec("docker run -v '/analyze/':'/analyze/' quantum/zenome_reports:v1 rm -rf {$bam_path}/stellar_tmp");
 exec("mkdir {$bam_path}/stellar_tmp");
 exec("mkdir -p {$bam_path}/{$report_path}");
@@ -27,7 +28,7 @@ for ($k = 1; isset($genes_need["$k"]); $k++) {
 	$params_gene = $genes_need["$k"];
 	
 echo ("!!! Running {$params_gene}\n");
-	//Константы от версии генома
+	//Fragments database
 	$coord_file = file("{$work_dir}/fragments_database.txt");
 	for ($t = 1; isset($coord_file["$t"]); $t++) {
 		$ll = explode("\t", trim($coord_file["$t"]));
