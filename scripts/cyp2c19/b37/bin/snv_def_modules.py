@@ -13,8 +13,9 @@ def get_core_variants(infile, cn):
         core_vars.append(line)
     core_vars = ";".join(sorted(core_vars))
 
-    if int(cn) == 1:
-        core_vars = core_vars.replace("~0/1", "~1/1")
+#    Block zygosity change!
+#    if int(cn) == 1:
+#        core_vars = core_vars.replace("~0/1", "~1/1")
 
     return core_vars
 
