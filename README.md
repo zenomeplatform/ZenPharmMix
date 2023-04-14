@@ -49,7 +49,3 @@ For execution on a local machine
 ```
 php -f run_zenomix.php ref_file bam_path bam_name work_mode report_path
 ```
-### Step 3 - Expected output
-The expected output excel file contains genotypes and phenotypes for 7 CYP450 genes and CYPOR. Additional sheets contain phenotypes for 7 groups of drugs: "Antidepressants", "Anticonvulsants", "Neuroleptics", "Tranquilizers", "Sedatives", "Stimulants" and "Nootropic". Presumptive impact of POR genotype on cytochromes phenotypes is provided in "POR_Impact" sheet. Some variants (intronic, splice site, promoter) cannot be accurately identified by low-coverage(2-7x) WGS, so there is a risk of having alleles which are defined by these core variants. Information about risk is collected in "Risk_alleles" sheet.
-
-![show_result](https://user-images.githubusercontent.com/91198710/213020784-935a5793-ec34-4f83-a6ed-01bdcb7fdabf.png)
