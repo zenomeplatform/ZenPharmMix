@@ -400,15 +400,15 @@ def hybrid_test_68(cn, av_cov, in1_3pr_float, cov_2d7_hyb, cn_hyb_68):
     
     rt = float(cov_2d7_hyb)/float(in1_3pr_float)
 
-    if int(cn) == 3 and int(cn_hyb_68) == 4 and rt >= 0.75:
+    if int(cn) == 3 and int(cn_hyb_68) == 4 and rt >= 1:
         return 'hyb_68'
-    elif int(cn) == 1 and rt >= 1:
+    elif int(cn) == 1 and rt >= 1.25:
         return 'hyb_68'
-    elif int(cn) == 2 and rt >= 1:
+    elif int(cn) == 2 and rt >= 1.25:
         return 'hyb_68'
-    elif int(cn) == 3 and rt >= 1:
+    elif int(cn) == 3 and rt >= 1.25:
         return 'hyb_68'
-    elif int(cn) == 4 and rt >= 0.75:
+    elif int(cn) == 4 and rt >= 1:
         return 'hyb_68'
     
     else:
