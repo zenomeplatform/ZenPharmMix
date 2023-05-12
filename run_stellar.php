@@ -45,14 +45,14 @@ echo ("!!! Running {$params_gene}\n");
 	//call_snvs1
 echo ("!!! Call_SNVS1\n");
 	exec("mkdir -p {$bam_path}/stellar_tmp/{$bam_name}_var_1/{$params_gene}");
-	exec("docker run -v '/analyze/':'/analyze/' quantum/zenome_reports:v1 graphtyper genotype {$ref_file} --sam={$bam_path}/{$bam_name}.MIX.bam --region={$region_a1} --output={$bam_path}/stellar_tmp/{$bam_name}_var_1/{$params_gene} --prior_vcf={$res_dir}/common_plus_core_var.vcf.gz -a {$debug38}{$debug37} --bamshrink_max_fraglen=250 --no_filter_on_strand_bias");
+	exec("docker run -v '/analyze/':'/analyze/' quantum/zenome_reports:v1 graphtyper genotype {$ref_file} --sam={$bam_path}/{$bam_name}.WES.bam --region={$region_a1} --output={$bam_path}/stellar_tmp/{$bam_name}_var_1/{$params_gene} --prior_vcf={$res_dir}/common_plus_core_var.vcf.gz -a {$debug38}{$debug37} --bamshrink_max_fraglen=250 --no_filter_on_strand_bias");
 	exec("docker run -v '/analyze/':'/analyze/' quantum/zenome_merging:v1 bcftools concat {$bam_path}/stellar_tmp/{$bam_name}_var_1/{$params_gene}/{$chrom}/*.vcf.gz -o {$bam_path}/stellar_tmp/{$bam_name}_var_1/{$params_gene}/{$region_a2}.vcf"); 
 	exec("docker run -v '/analyze/':'/analyze/' quantum/zenome_merging:v1 bgzip -f {$bam_path}/stellar_tmp/{$bam_name}_var_1/{$params_gene}/{$region_a2}.vcf");
 	exec("docker run -v '/analyze/':'/analyze/' quantum/zenome_merging:v1 tabix -f {$bam_path}/stellar_tmp/{$bam_name}_var_1/{$params_gene}/{$region_a2}.vcf.gz");
 	//call_snvs2
 echo ("!!! Call_SNVS2\n");
 	exec("mkdir -p {$bam_path}/stellar_tmp/{$bam_name}_var_2/{$params_gene}");
-	exec("docker run -v '/analyze/':'/analyze/' quantum/zenome_reports:v1 graphtyper genotype {$ref_file} --sam={$bam_path}/{$bam_name}.MIX.bam --region={$region_a1} --output={$bam_path}/stellar_tmp/{$bam_name}_var_2/{$params_gene} -a {$debug38}{$debug37} --bamshrink_max_fraglen=1000 --bamshrink_min_matching=50 --bamshrink_min_readlen=70 --bamshrink_min_readlen_low_mapq=70 --bamshrink_min_unpair_readlen=70 --genotype_aln_min_support=2 --genotype_dis_min_support=2 --no_filter_on_proper_pairs --no_filter_on_read_bias --no_filter_on_strand_bias --no_filter_on_coverage --minimum_extract_variant_support=1");
+	exec("docker run -v '/analyze/':'/analyze/' quantum/zenome_reports:v1 graphtyper genotype {$ref_file} --sam={$bam_path}/{$bam_name}.WGS.bam --region={$region_a1} --output={$bam_path}/stellar_tmp/{$bam_name}_var_2/{$params_gene} -a {$debug38}{$debug37} --bamshrink_max_fraglen=1000 --bamshrink_min_matching=50 --bamshrink_min_readlen=70 --bamshrink_min_readlen_low_mapq=70 --bamshrink_min_unpair_readlen=70 --genotype_aln_min_support=2 --genotype_dis_min_support=2 --no_filter_on_proper_pairs --no_filter_on_read_bias --no_filter_on_strand_bias --no_filter_on_coverage --minimum_extract_variant_support=1");
 	exec("docker run -v '/analyze/':'/analyze/' quantum/zenome_merging:v1 bcftools concat {$bam_path}/stellar_tmp/{$bam_name}_var_2/{$params_gene}/{$chrom}/*.vcf.gz -o {$bam_path}/stellar_tmp/{$bam_name}_var_2/{$params_gene}/{$region_a2}.vcf");
 	exec("docker run -v '/analyze/':'/analyze/' quantum/zenome_merging:v1 bgzip -f {$bam_path}/stellar_tmp/{$bam_name}_var_2/{$params_gene}/{$region_a2}.vcf");
 	exec("docker run -v '/analyze/':'/analyze/' quantum/zenome_merging:v1 tabix -f {$bam_path}/stellar_tmp/{$bam_name}_var_2/{$params_gene}/{$region_a2}.vcf.gz");
