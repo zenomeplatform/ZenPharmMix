@@ -70,20 +70,21 @@ echo ("!!! Depth\n");
 	exec("samtools bedcov --reference {$ref_file} {$res_dir}/{$test3_file} {$bam_path}/{$bam_name}.WGS.bam > {$bam_path}/stellar_tmp/{$bam_name}_{$params_gene}_ctrl.depth");
 	//format_snvs
 echo ("!!! Format_SNVS\n");
-	exec("docker run -v '/analyze/':'/analyze/' quantum/zenome_merging:v1 bcftools view -R /ZenPharmMix/8_genes_exon_merge.bed {$bam_path}/stellar_tmp/{$bam_name}_var_1/{$params_gene}/{$region_a2}.vcf.gz -Oz -o {$bam_path}/stellar_tmp/{$bam_name}_var_1/{$params_gene}/{$region_a2}_filt.vcf.gz");
-        exec("docker run -v '/analyze/':'/analyze/' quantum/zenome_merging:v1 tabix {$bam_path}/stellar_tmp/{$bam_name}_var_1/{$params_gene}/{$region_a2}_filt.vcf.gz");
-        exec("docker run -v '/analyze/':'/analyze/' quantum/zenome_merging:v1 mkdir {$bam_path}/stellar_tmp/{$bam_name}_var");
-        exec("docker run -v '/analyze/':'/analyze/' quantum/zenome_merging:v1 bcftools concat -a -D -r {$bam_path}/stellar_tmp/{$bam_name}_var_1/{$params_gene}/{$region_a2}_filt.vcf.gz {$bam_path}/stellar_tmp/{$bam_name}_var_2/{$params_gene}/{$region_a2}.vcf.gz -Oz -o {$bam_path}/stellar_tmp/{$bam_name}_var/{$params_gene}/{$bam_name}_{$region_b2}.vcf.gz");
-	exec("docker run -v '/analyze/':'/analyze/' quantum/zenome_merging:v1 tabix {$bam_path}/stellar_tmp/{$bam_name}_var/{$params_gene}/{$bam_name}_{$region_b2}.vcf.gz");
+	exec("docker run -v '/analyze/':'/analyze/' quantum/zenome_merging:v1 bcftools view -R {$work_dir}/8_genes_exon_merge.bed {$bam_path}/stellar_tmp/{$bam_name}_var_1/{$params_gene}/{$region_a2}.vcf.gz -Oz -o {$bam_path}/stellar_tmp/{$bam_name}_var_1/{$params_gene}/{$region_a2}_filt.vcf.gz");
+    exec("tabix {$bam_path}/stellar_tmp/{$bam_name}_var_1/{$params_gene}/{$region_a2}_filt.vcf.gz");
+    exec("mkdir {$bam_path}/stellar_tmp/{$bam_name}_var");
+	exec("mkdir {$bam_path}/stellar_tmp/{$bam_name}_var/{$params_gene}");
+    exec("docker run -v '/analyze/':'/analyze/' quantum/zenome_merging:v1 bcftools concat -a -D -Oz -o {$bam_path}/stellar_tmp/{$bam_name}_var/{$params_gene}/{$bam_name}_{$region_b2}.vcf.gz {$bam_path}/stellar_tmp/{$bam_name}_var_1/{$params_gene}/{$region_a2}_filt.vcf.gz {$bam_path}/stellar_tmp/{$bam_name}_var_2/{$params_gene}/{$region_a2}.vcf.gz");
+	exec("tabix {$bam_path}/stellar_tmp/{$bam_name}_var/{$params_gene}/{$bam_name}_{$region_b2}.vcf.gz");
 	exec("docker run -v '/analyze/':'/analyze/' quantum/zenome_merging:v1 bash {$work_dir}/bcftools_pipe.sh {$bam_path}/stellar_tmp/{$bam_name}_var/{$params_gene}/{$bam_name}_{$region_b2}.vcf.gz {$bam_path}/stellar_tmp/{$bam_name}_var/{$params_gene}/{$bam_name}_all_norm.vcf.gz");
-	exec("docker run -v '/analyze/':'/analyze/' quantum/zenome_merging:v1 tabix {$bam_path}/stellar_tmp/{$bam_name}_var/{$params_gene}/{$bam_name}_all_norm.vcf.gz");
-	exec("docker run -v '/analyze/':'/analyze/' quantum/zenome_merging:v1 cp {$bam_path}/stellar_tmp/{$bam_name}_var/{$params_gene}/{$bam_name}_all_norm.vcf.gz {$bam_path}/stellar_tmp/{$bam_name}_{$params_gene}.vcf.gz");
-	exec("docker run -v '/analyze/':'/analyze/' quantum/zenome_merging:v1 tabix {$bam_path}/stellar_tmp/{$bam_name}_{$params_gene}.vcf.gz");
+	exec("tabix {$bam_path}/stellar_tmp/{$bam_name}_var/{$params_gene}/{$bam_name}_all_norm.vcf.gz");
+	exec("cp {$bam_path}/stellar_tmp/{$bam_name}_var/{$params_gene}/{$bam_name}_all_norm.vcf.gz {$bam_path}/stellar_tmp/{$bam_name}_{$params_gene}.vcf.gz");
+	exec("tabix {$bam_path}/stellar_tmp/{$bam_name}_{$params_gene}.vcf.gz");
 	//get_core_var
 echo ("!!! Get_Core_Var\n");
 	exec("docker run -v '/analyze/':'/analyze/' quantum/zenome_merging:v1 bcftools isec {$bam_path}/stellar_tmp/{$bam_name}_var/{$params_gene}/{$bam_name}_all_norm.vcf.gz {$res_dir}/allele_def_var.vcf.gz -p {$bam_path}/stellar_tmp/{$bam_name}_int/{$params_gene} -Oz");
 	exec("docker run -v '/analyze/':'/analyze/' quantum/zenome_merging:v1 bash {$work_dir}/bcftools_pipe.sh {$bam_path}/stellar_tmp/{$bam_name}_int/{$params_gene}/0002.vcf.gz {$bam_path}/stellar_tmp/{$bam_name}_int/{$params_gene}/{$bam_name}_core.vcf.gz");
-	exec("docker run -v '/analyze/':'/analyze/' quantum/zenome_merging:v1 tabix {$bam_path}/stellar_tmp/{$bam_name}_int/{$params_gene}/{$bam_name}_core.vcf.gz");
+	exec("tabix {$bam_path}/stellar_tmp/{$bam_name}_int/{$params_gene}/{$bam_name}_core.vcf.gz");
 echo ("!!! Analyse_1\n");
 	//analyse_1
 	$bquery = "-f'%ID\t%ALT\t[%GT\t%DP]\t%INFO/ABHet\t%INFO/ABHom\n'";
