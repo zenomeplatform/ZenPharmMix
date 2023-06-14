@@ -388,13 +388,13 @@ def hybrid_test_68(cn, av_cov, in1_3pr_float, cov_2d7_hyb, in_list):
 
         rt = float(cov_2d7_hyb)/float(in1_3pr_float)
 
-        if int(cn) == 1 and rt >= 1 and rt_snp > 1.4:
+        if int(cn) == 1 and rt >= 1 and rt_snp >= 1.4:
             return 'hyb_68'
-        elif int(cn) == 2 and rt >= 1 and rt_snp > 1.4:
+        elif int(cn) == 2 and rt >= 1 and rt_snp >= 1.4:
             return 'hyb_68'
-        elif int(cn) == 3 and rt >= 1 and rt_snp > 1.4:
+        elif int(cn) == 3 and rt >= 1 and rt_snp >= 1.4:
             return 'hyb_68'
-        elif int(cn) == 4 and rt >= 0.75 and rt_snp > 1.4:
+        elif int(cn) == 4 and rt >= 0.7 and rt_snp >= 1.4:
             return 'hyb_68'
         else:
             return 'norm_dup'
